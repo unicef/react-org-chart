@@ -4,6 +4,7 @@ function onParentClick(config = {}, children) {
   const { treeData, getParent, render } = config
   const result = getParent(treeData)
 
+  // Check if the result is a promise and render the children
   if (result.then) {
     return result.then(handler)
   } else {
@@ -11,11 +12,18 @@ function onParentClick(config = {}, children) {
   }
 
   function handler(result) {
-    // console.log(result)
-    const currentNodeId = treeData.id
+    const currentNodeId = treeData.postNumber
+    const tree = result.children.map(item => {
+      if (item.postNumber === currentNodeId) {
+        return { ...item, ...treeData }
+      } else {
+        return item
+      }
+    })
 
-    const tree = result.children
+    result.children = tree
+    config.treeData = result
+
+    return render(config)
   }
-
-  // Check if the result is a promise and render the children
 }

@@ -13,15 +13,16 @@ function renderLines(config = {}) {
     sourceNode,
     treeData,
     lineType,
-    animationDuration
+    animationDuration,
   } = config
 
   const parentNode = sourceNode || treeData
 
   // Select all the links to render the lines
-  const link = svg
-    .selectAll('path.link')
-    .data(links.filter(link => link.source.id), d => d.target.id)
+  const link = svg.selectAll('path.link').data(
+    links.filter(link => link.source.id),
+    d => d.target.id
+  )
 
   // Define the curved line function
   const curve = d3.svg
@@ -42,27 +43,27 @@ function renderLines(config = {}) {
       .insert('path', 'g')
       .attr('class', 'link')
       .attr('fill', 'none')
-      .attr('stroke', borderColor)
+      .attr('stroke', '#374EA2')
       .attr('stroke-opacity', 0.5)
       .attr('stroke-width', 1.25)
       .attr('d', d => {
         const linePoints = [
           {
             x: d.source.x0 + parseInt(nodeWidth / 2),
-            y: d.source.y0 + nodeHeight + 2
+            y: d.source.y0 + nodeHeight + 2,
           },
           {
             x: d.source.x0 + parseInt(nodeWidth / 2),
-            y: d.source.y0 + nodeHeight + 2
+            y: d.source.y0 + nodeHeight + 2,
           },
           {
             x: d.source.x0 + parseInt(nodeWidth / 2),
-            y: d.source.y0 + nodeHeight + 2
+            y: d.source.y0 + nodeHeight + 2,
           },
           {
             x: d.source.x0 + parseInt(nodeWidth / 2),
-            y: d.source.y0 + nodeHeight + 2
-          }
+            y: d.source.y0 + nodeHeight + 2,
+          },
         ]
 
         return angle(linePoints)
@@ -76,20 +77,20 @@ function renderLines(config = {}) {
         const linePoints = [
           {
             x: d.source.x + parseInt(nodeWidth / 2),
-            y: d.source.y + nodeHeight
+            y: d.source.y + nodeHeight,
           },
           {
             x: d.source.x + parseInt(nodeWidth / 2),
-            y: d.target.y - margin.top / 2
+            y: d.target.y - margin.top / 2,
           },
           {
             x: d.target.x + parseInt(nodeWidth / 2),
-            y: d.target.y - margin.top / 2
+            y: d.target.y - margin.top / 2,
           },
           {
             x: d.target.x + parseInt(nodeWidth / 2),
-            y: d.target.y
-          }
+            y: d.target.y,
+          },
         ]
 
         return angle(linePoints)
@@ -104,20 +105,20 @@ function renderLines(config = {}) {
         const linePoints = [
           {
             x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2
+            y: config.callerNode.y + nodeHeight + 2,
           },
           {
             x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2
+            y: config.callerNode.y + nodeHeight + 2,
           },
           {
             x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2
+            y: config.callerNode.y + nodeHeight + 2,
           },
           {
             x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2
-          }
+            y: config.callerNode.y + nodeHeight + 2,
+          },
         ]
 
         return angle(linePoints)
@@ -137,12 +138,12 @@ function renderLines(config = {}) {
       .attr('d', d => {
         const source = {
           x: parentNode.x0,
-          y: parentNode.y0
+          y: parentNode.y0,
         }
 
         return curve({
           source,
-          target: source
+          target: source,
         })
       })
 
@@ -160,11 +161,11 @@ function renderLines(config = {}) {
       .attr('d', function(d) {
         const source = {
           x: parentNode.x,
-          y: parentNode.y
+          y: parentNode.y,
         }
         return curve({
           source,
-          target: source
+          target: source,
         })
       })
       .remove()

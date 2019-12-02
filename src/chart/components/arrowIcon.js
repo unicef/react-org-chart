@@ -15,7 +15,6 @@
 const onParentClick = require('../onParentClick')
 
 module.exports = function arrowIcon({ svg, config, treeData, x = 5, y = 5 }) {
-  console.log(treeData.id)
   const container = svg
     .append('g')
     .attr('id', 'arrowIcon')
@@ -32,7 +31,7 @@ module.exports = function arrowIcon({ svg, config, treeData, x = 5, y = 5 }) {
   const icon = container
     .append('g')
     .attr('id', 'icon')
-    .attr('fill', '#92a0ad')
+    .attr('fill', '#374EA2')
     .attr('transform', `translate(70, -24)`)
 
   const arrow = icon

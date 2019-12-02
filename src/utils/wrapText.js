@@ -10,7 +10,6 @@ module.exports = function wrapText(text, width) {
 
   text[0].forEach(textNode => {
     const text = d3.select(textNode)
-    // console.log(text.attr('x'))
     const x = text.attr('x')
     const y = text.attr('y')
     const dy = parseFloat(text.attr('dy'))
