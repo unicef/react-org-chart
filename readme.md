@@ -1,10 +1,20 @@
-# react-org-chart
+# react-org-chart by UNICEF
 
-### Features
+React component for displaying organizational charts.
+
+This component is based on https://github.com/coreseekdev/react-org-chart, and we added a few customizations that fitted better for our needs.
+
+# Features
+
+Original: 
 
 - High-performance D3-based SVG rendering
 - Lazy-load children with a custom function
 - Handle up to 1 million collapsed nodes and 5,000 expanded nodes
+
+Added:
+- Lazy-load of parents
+
 
 ### React Props
 
@@ -16,3 +26,44 @@
 | nodeSpacing       | `Number` | Spacing between each of the nodes in the chart (Optional)                             | 12                                                                             |
 | animationDuration | `Number` | Duration of the animations in milliseconds (Optional)                              | 350                                                                            |
 | lineType          | `String` | Type of line that connects the nodes to each other (Optional)                      | “angle” “curve” 
+
+
+
+# Development
+
+```bash
+git clone https://github.com/unicef/react-org-chart.git
+cd react-org-chart
+npm install 
+```
+
+To build in watch mode:
+
+```bash
+npm start
+```
+
+To build for production
+
+```bash
+npm run build
+```
+
+Running the example:
+
+```bash
+cd example/
+npm install # Only first time
+npm start
+```
+
+# License
+
+Copyright 2019 UNICEF http://www.unicef.org
+Developed by ICTD, Solutions Center and Support, Digital Tools and Platforms, Custom Aplications Team, New York.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
