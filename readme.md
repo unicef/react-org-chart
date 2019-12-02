@@ -2,15 +2,16 @@
 
 React component for displaying organizational charts.
 
-This component is based on https://github.com/coreseekdev/react-org-chart, and we added a few customizations that fitted better for our needs.
+This component is based on https://github.com/coreseekdev/react-org-chart. On top of it, we added a few customizations for our needs.
 
 # Features
 
 Original: 
-
 - High-performance D3-based SVG rendering
 - Lazy-load children with a custom function
 - Handle up to 1 million collapsed nodes and 5,000 expanded nodes
+- Pan 
+- Zoom in and zoom out
 
 Added:
 - Lazy-load of parents
