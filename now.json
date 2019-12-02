@@ -1,0 +1,6 @@
+{
+    "name": "react-org-chart",
+    "type": "static",
+    "files": ["examples", "dist"],
+    "alias": "react-org-chart.now.sh"
+}
