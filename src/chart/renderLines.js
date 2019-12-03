@@ -102,22 +102,23 @@ function renderLines(config = {}) {
       .transition()
       .duration(animationDuration)
       .attr('d', d => {
+        const lineNode = config.callerNode ? config.callerNode : parentNode
         const linePoints = [
           {
-            x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2,
+            x: lineNode.x + parseInt(nodeWidth / 2),
+            y: lineNode.y + nodeHeight + 2,
           },
           {
-            x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2,
+            x: lineNode.x + parseInt(nodeWidth / 2),
+            y: lineNode.y + nodeHeight + 2,
           },
           {
-            x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2,
+            x: lineNode.x + parseInt(nodeWidth / 2),
+            y: lineNode.y + nodeHeight + 2,
           },
           {
-            x: config.callerNode.x + parseInt(nodeWidth / 2),
-            y: config.callerNode.y + nodeHeight + 2,
+            x: lineNode.x + parseInt(nodeWidth / 2),
+            y: lineNode.y + nodeHeight + 2,
           },
         ]
 
