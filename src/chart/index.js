@@ -81,7 +81,7 @@ function init(options) {
           childrenWidth + (elemWidth - childrenWidth * 2) / 2 - margin.left / 2
         ) +
         ',' +
-        24 +
+        48 +
         ')'
     )
 

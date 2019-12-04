@@ -23,7 +23,7 @@ module.exports = function iconLink({ svg, x = 5, y = 5 }) {
   const icon = container
     .append('g')
     .attr('id', 'icon')
-    .attr('fill', '#92a0ad')
+    .attr('fill', '#3344DD')
     .attr('transform', `translate(${x}, ${y})`)
 
   const arrow = icon
@@ -43,7 +43,7 @@ module.exports = function iconLink({ svg, x = 5, y = 5 }) {
 
   arrow
     .append('path')
-    .attr('opacity', 0.7)
+    // .attr('opacity', 0.7)
     .attr(
       'd',
       'M12,2 L12,12 L2,12 L2,11 C2,10.4477153 1.55228475,10 1,10 C0.44771525,10 0,10.4477153 0,11 L0,12.4953156 C0,13.3242086 0.674596865,14 1.50034732,14 L12.4996527,14 C13.3281027,14 14,13.3234765 14,12.4996527 L14,1.50034732 C14,0.669321781 13.3358906,0 12.4953156,0 L11,0 C10.4477153,0 10,0.44771525 10,1 C10,1.55228475 10.4477153,2 11,2 L12,2 Z'

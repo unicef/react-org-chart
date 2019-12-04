@@ -1,8 +1,9 @@
 const { wrapText, helpers } = require('../utils')
 const renderLines = require('./renderLines')
+const renderImage = require('./renderImage')
 const onClick = require('./onClick')
 const iconLink = require('./components/iconLink')
-const arrowIcon = require('./components/arrowIcon')
+const supervisorIcon = require('./components/supervisorIcon')
 
 const CHART_NODE_CLASS = 'org-chart-node'
 const PERSON_LINK_CLASS = 'org-chart-person-link'
@@ -32,6 +33,7 @@ function render(config) {
     treeData,
     sourceNode,
     onPersonLinkClick,
+    loadImage,
   } = config
 
   // Compute the new tree layout.
@@ -54,9 +56,9 @@ function render(config) {
 
   const parentNode = sourceNode || treeData
 
-  svg.selectAll('#arrowIcon').remove()
+  svg.selectAll('#supervisorIcon').remove()
 
-  arrowIcon({
+  supervisorIcon({
     svg: svg,
     config,
     treeData,
@@ -117,7 +119,7 @@ function render(config) {
     .attr('dy', '.3em')
     .style('cursor', 'pointer')
     .style('fill', nameColor)
-    .style('font-size', 16)
+    .style('font-size', 14)
     .text(d => d.person.name)
   // .on('click', onParentClick(config))
 
@@ -128,22 +130,22 @@ function render(config) {
     .attr('x', nodeWidth / 2)
     .attr('y', namePos.y + nodePaddingY * 2.4)
     .attr('dy', '0.1em')
-    .style('font-size', 14)
+    .style('font-size', 12)
     .style('cursor', 'pointer')
     .style('fill', titleColor)
     .text(d => d.person.title)
 
-  const heightForTitle = 64 // getHeightForText(d.person.title)
+  const heightForTitle = 60 // getHeightForText(d.person.title)
 
   // Person's Reports
   nodeEnter
     .append('text')
     .attr('class', PERSON_REPORTS_CLASS)
-    .attr('x', nodePaddingX)
+    .attr('x', nodePaddingX + 8)
     .attr('y', namePos.y + nodePaddingY + heightForTitle)
     .attr('dy', '.9em')
     .style('font-size', 14)
-    .style('font-weight', 500)
+    .style('font-weight', 400)
     .style('cursor', 'pointer')
     .style('fill', reportsColor)
     .text(helpers.getTextForTitle)
@@ -151,28 +153,39 @@ function render(config) {
   // Person's Avatar
   nodeEnter
     .append('image')
+    .attr('id', d => `image-${d.id}`)
     .attr('width', avatarWidth)
     .attr('height', avatarWidth)
     .attr('x', avatarPos.x)
     .attr('y', avatarPos.y)
     .attr('stroke', borderColor)
+    .attr('s', d => {
+      d.person.hasImage
+        ? d.person.avatar
+        : loadImage(d).then(res => {
+            d.person.avatar = res
+            d.person.hasImage = true
+            d3.select(`#image-${d.id}`).attr('href', d.person.avatar)
+            return d.person.avatar
+          })
+    })
     .attr('src', d => d.person.avatar)
     .attr('xlink:href', d => d.person.avatar)
     .attr('clip-path', 'url(#avatarClip)')
 
-  // Person's Department
-  nodeEnter
-    .append('text')
-    .attr('class', getDepartmentClass)
-    .attr('x', 34)
-    .attr('y', avatarWidth + nodePaddingY * 1.2)
-    .attr('dy', '.9em')
-    .style('cursor', 'pointer')
-    .style('fill', titleColor)
-    .style('font-weight', 600)
-    .style('font-size', 8)
-    .attr('text-anchor', 'middle')
-    .text(helpers.getTextForDepartment)
+  // // Person's Department
+  // nodeEnter
+  //   .append('text')
+  //   .attr('class', getDepartmentClass)
+  //   .attr('x', 34)
+  //   .attr('y', avatarWidth + nodePaddingY * 1.2)
+  //   .attr('dy', '.9em')
+  //   .style('cursor', 'pointer')
+  //   .style('fill', titleColor)
+  //   .style('font-weight', 600)
+  //   .style('font-size', 8)
+  //   .attr('text-anchor', 'middle')
+  //   .text(helpers.getTextForDepartment)
 
   // Person's Link
   const nodeLink = nodeEnter
@@ -190,8 +203,8 @@ function render(config) {
 
   iconLink({
     svg: nodeLink,
-    x: nodeWidth - 24,
-    y: nodeHeight - 22,
+    x: nodeWidth - 20,
+    y: 8,
   })
 
   // Transition nodes to their new position.

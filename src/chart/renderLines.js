@@ -43,7 +43,7 @@ function renderLines(config = {}) {
       .insert('path', 'g')
       .attr('class', 'link')
       .attr('fill', 'none')
-      .attr('stroke', '#374EA2')
+      .attr('stroke', '#A9A9A9')
       .attr('stroke-opacity', 0.5)
       .attr('stroke-width', 1.25)
       .attr('d', d => {
