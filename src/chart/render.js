@@ -1,10 +1,9 @@
-const { wrapText, helpers } = require('../utils')
+const { wrapText, helpers, covertImageToBase64 } = require('../utils')
 const renderLines = require('./renderLines')
-const renderImage = require('./renderImage')
+const exportOrgChart = require('./exportOrgChart')
 const onClick = require('./onClick')
 const iconLink = require('./components/iconLink')
 const supervisorIcon = require('./components/supervisorIcon')
-
 const CHART_NODE_CLASS = 'org-chart-node'
 const PERSON_LINK_CLASS = 'org-chart-person-link'
 const PERSON_NAME_CLASS = 'org-chart-person-name'
@@ -163,29 +162,17 @@ function render(config) {
       d.person.hasImage
         ? d.person.avatar
         : loadImage(d).then(res => {
-            d.person.avatar = res
+            covertImageToBase64(res, function(dataUrl) {
+              d3.select(`#image-${d.id}`).attr('href', dataUrl)
+              d.person.avatar = dataUrl
+            })
             d.person.hasImage = true
-            d3.select(`#image-${d.id}`).attr('href', d.person.avatar)
             return d.person.avatar
           })
     })
     .attr('src', d => d.person.avatar)
-    .attr('xlink:href', d => d.person.avatar)
+    .attr('href', d => d.person.avatar)
     .attr('clip-path', 'url(#avatarClip)')
-
-  // // Person's Department
-  // nodeEnter
-  //   .append('text')
-  //   .attr('class', getDepartmentClass)
-  //   .attr('x', 34)
-  //   .attr('y', avatarWidth + nodePaddingY * 1.2)
-  //   .attr('dy', '.9em')
-  //   .style('cursor', 'pointer')
-  //   .style('fill', titleColor)
-  //   .style('font-weight', 600)
-  //   .style('font-size', 8)
-  //   .attr('text-anchor', 'middle')
-  //   .text(helpers.getTextForDepartment)
 
   // Person's Link
   const nodeLink = nodeEnter
@@ -242,13 +229,18 @@ function render(config) {
     d.x0 = d.x
     d.y0 = d.y
   })
-}
 
-function getDepartmentClass(d) {
-  const { person } = d
-  const deptClass = person.department ? person.department.toLowerCase() : ''
+  var nodeLeftX = -70
+  var nodeRightX = 70
+  var nodeY = 200
+  nodes.map(d => {
+    nodeLeftX = d.x < nodeLeftX ? d.x : nodeLeftX
+    nodeRightX = d.x > nodeRightX ? d.x : nodeRightX
+    nodeY = d.y > nodeY ? d.y : nodeY
+  })
+  nodeLeftX = nodeLeftX * -1
 
-  return [PERSON_DEPARTMENT_CLASS, deptClass].join(' ')
+  exportOrgChart(nodeLeftX, nodeRightX, nodeY)
 }
 
 module.exports = render

@@ -44,7 +44,7 @@ function renderLines(config = {}) {
       .attr('class', 'link')
       .attr('fill', 'none')
       .attr('stroke', '#A9A9A9')
-      .attr('stroke-opacity', 0.5)
+      .attr('stroke-opacity', 1)
       .attr('stroke-width', 1.25)
       .attr('d', d => {
         const linePoints = [
