@@ -3,15 +3,8 @@ const { collapse } = require('../utils')
 
 module.exports = onClick
 
-function onClick(config = {}, parent) {
-  const {
-    treeData,
-    loadChildren,
-    // currentNode,
-    renderParent,
-    render,
-    onPersonClick,
-  } = config
+function onClick(config = {}) {
+  const { loadChildren, render, onPersonClick } = config
 
   return datum => {
     event.preventDefault()
