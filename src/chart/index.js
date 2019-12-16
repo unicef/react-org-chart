@@ -155,11 +155,17 @@ function init(options) {
   d3.select(id).style('height', elemHeight + margin.top + margin.bottom)
 
   //creating  canvas and duplicate svg for image and PDF download
-  let canvasContainer = document.createElement('div')
+  const canvasContainer = document.createElement('div')
   canvasContainer.setAttribute('id', `${id}-canvas-container`)
-  let svgContainer = document.createElement('div')
+  canvasContainer.setAttribute('style', 'display:none;')
+
+  //duplicate svg container
+  const svgContainer = document.createElement('div')
   svgContainer.setAttribute('id', `${id}-svg-container`)
-  let orgChart = document.getElementById('root')
+  svgContainer.setAttribute('style', 'display:none;')
+
+  //appending svg and canvas containers to root
+  const orgChart = document.getElementById('root')
   orgChart.append(canvasContainer)
   orgChart.append(svgContainer)
 }
