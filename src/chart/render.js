@@ -1,3 +1,4 @@
+const d3 = require('d3')
 const { wrapText, helpers, covertImageToBase64 } = require('../utils')
 const renderLines = require('./renderLines')
 const exportOrgChartImage = require('./exportOrgChartImage')
@@ -250,5 +251,4 @@ function render(config) {
     exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY)
   })
 }
-
 module.exports = render
