@@ -1,4 +1,3 @@
-const d3 = require('d3')
 const jsPDF = require('jspdf')
 
 module.exports = exportOrgChartPdf
@@ -8,9 +7,8 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
   var h = nodeY
   var ratio = 2
 
-  const scale = nodeLeftX > 7000 ? 'scale(0.6)' : ''
-
   const { id, downlowdedOrgChart } = config
+
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
     ? document
@@ -31,7 +29,7 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
   step.id = 'newsvg'
   step.setAttribute('width', w)
   step.setAttribute('height', h)
-  step.setAttribute('viewBox', `0  0 ${w} ${h + 400}`)
+  step.setAttribute('viewBox', `0 0 ${w} ${h + 400}`)
   step.innerHTML = $('#svg').html()
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
@@ -60,7 +58,7 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
   image.onload = function() {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
     let canvasData = canvas.toDataURL('image/png')
-    var doc = new jsPDF('l', 'pt', [canvas.width, canvas.height])
+    let doc = new jsPDF('l', 'px', [canvas.width * 4, canvas.height * 10])
     doc.addImage(canvasData, 'PNG', 0, 0, canvas.width, canvas.height)
     doc.save('orgchart.pdf')
     downlowdedOrgChart(true)
