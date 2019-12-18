@@ -2,12 +2,21 @@ const jsPDF = require('jspdf')
 
 module.exports = exportOrgChartPdf
 
-function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
+function exportOrgChartPdf(
+  config,
+  nodeLeftX,
+  nodeRightX,
+  nodeY,
+  translateX,
+  translateY
+) {
   var w = nodeLeftX + nodeRightX
   var h = nodeY
-  var ratio = 2
+  var ratio = 3
 
   const { id, downlowdedOrgChart } = config
+
+  const scale = nodeLeftX > 7000 ? 'scale(0.7)' : ''
 
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
@@ -29,7 +38,7 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
   step.id = 'newsvg'
   step.setAttribute('width', w)
   step.setAttribute('height', h)
-  step.setAttribute('viewBox', `0 0 ${w} ${h + 400}`)
+  step.setAttribute('viewBox', `${translateX} ${translateY} ${w} ${h + 400}`)
   step.innerHTML = $('#svg').html()
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
@@ -42,7 +51,11 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
 
   // appending g element from svg
   const g = document.getElementById(`${id}-svg-container`).querySelector('g')
-  g.setAttribute('transform', `translate(0,0) ${scale}`)
+  g.setAttribute(
+    'transform',
+    `translate(${translateX},
+    ${translateY}) ${scale}`
+  )
   var html = new XMLSerializer().serializeToString(
     document.getElementById(`${id}-svg-container`).querySelector('svg')
   )
@@ -58,7 +71,7 @@ function exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY) {
   image.onload = function() {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
     let canvasData = canvas.toDataURL('image/png')
-    let doc = new jsPDF('l', 'px', [canvas.width * 4, canvas.height * 10])
+    let doc = new jsPDF('l', 'px', [canvas.width, canvas.height * 2])
     doc.addImage(canvasData, 'PNG', 0, 0, canvas.width, canvas.height)
     doc.save('orgchart.pdf')
     downlowdedOrgChart(true)

@@ -37,6 +37,8 @@ function render(config) {
     loadImage,
     downloadImageId,
     downloadPdfId,
+    elemWidth,
+    margin,
   } = config
 
   // Compute the new tree layout.
@@ -242,13 +244,30 @@ function render(config) {
     nodeRightX = d.x > nodeRightX ? d.x : nodeRightX
     nodeY = d.y > nodeY ? d.y : nodeY
   })
+
   nodeLeftX = nodeLeftX * -1
+
+  const elemCenter = parseInt(nodeLeftX + nodeRightX / 2)
+
+  const translateX = `${parseInt(
+    elemCenter + (elemWidth - elemCenter * 2) / 2 - margin.left / 2
+  )}`
+
+  const translateY = 48
 
   d3.select(downloadImageId).on('click', function() {
     exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY)
   })
+
   d3.select(downloadPdfId).on('click', function() {
-    exportOrgChartPdf(config, nodeLeftX, nodeRightX, nodeY)
+    exportOrgChartPdf(
+      config,
+      nodeLeftX,
+      nodeRightX,
+      nodeY,
+      translateX,
+      translateY
+    )
   })
 }
 module.exports = render
