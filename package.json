@@ -1,6 +1,6 @@
 {
   "name": "@unicef/react-org-chart",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple, high-performance react component for d3 org chart",
   "repository": "",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
     "deploy": "npm run deploy"
   },
   "keywords": [],
-  "author": "Fouad Matin <m@fouad.org>",
+  "author": "UNICEF, based on work of Fouad Matin <m@fouad.org>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
