@@ -6,18 +6,38 @@ class OrgChart extends PureComponent {
     const { id } = this.props
 
     return createElement('div', {
-      id
+      id,
     })
   }
 
   static defaultProps = {
-    id: 'react-org-chart'
+    id: 'react-org-chart',
+    downloadImageId: 'download-image',
+    downloadPdfId: 'download-pdf',
+    zoomInId: 'zoom-in',
+    zoomOutId: 'zoom-out',
   }
 
   componentDidMount() {
-    const { id, tree, ...options } = this.props
+    const {
+      id,
+      downloadImageId,
+      downloadPdfId,
+      zoomInId,
+      zoomOutId,
+      tree,
+      ...options
+    } = this.props
 
-    init({ id: `#${id}`, data: tree, ...options })
+    init({
+      id: `#${id}`,
+      downloadImageId: `#${downloadImageId}`,
+      downloadPdfId: `#${downloadPdfId}`,
+      zoomInId: zoomInId,
+      zoomOutId: zoomOutId,
+      data: tree,
+      ...options,
+    })
   }
 }
 

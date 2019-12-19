@@ -3,7 +3,6 @@ const { collapse, wrapText, helpers } = require('../utils')
 const defineBoxShadow = require('../defs/defineBoxShadow')
 const defineAvatarClip = require('../defs/defineAvatarClip')
 const render = require('./render')
-const renderUpdate = require('./renderUpdate')
 const defaultConfig = require('./config')
 
 module.exports = {
@@ -32,6 +31,8 @@ function init(options) {
     nodeHeight,
     nodeSpacing,
     shouldResize,
+    zoomInId,
+    zoomOutId,
   } = config
 
   // Calculate how many pixel nodes to be spaced based on the
@@ -64,10 +65,19 @@ function init(options) {
   // Calculate width of a node with expanded children
   const childrenWidth = parseInt((treeData.children.length * nodeWidth) / 2)
 
+  // <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" xml:space="preserve" viewBox="0 0 193 260" enable-background=" new 0 0 193 260" height="260" width="193"
   // Add svg root for d3
   const svgroot = d3
     .select(id)
     .append('svg')
+    .attr('id', 'svg')
+    .attr('xmlns', 'http://www.w3.org/2000/svg')
+    .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    .attr('x', '0px')
+    .attr('y', '0px')
+    .attr('xml:space', 'preserve')
+    .attr('viewBox', `0 0 ${elemWidth} ${elemHeight}`)
+    .attr('enable-background', ` new 0 0 ${elemWidth} ${elemHeight}`)
     .attr('width', elemWidth)
     .attr('height', elemHeight)
 
@@ -102,15 +112,16 @@ function init(options) {
   // used in internal rendering functions
   config.svg = svg
   config.svgroot = svgroot
+  config.elemWidth = elemWidth
+  config.elemHeight = elemHeight
   config.render = render
 
   // Defined zoom behavior
-  const zoom = d3.behavior
+  var zoom = d3.behavior
     .zoom()
-    // Define the [zoomOutBound, zoomInBound]
-    .scaleExtent([0.4, 2])
+    .scaleExtent([0.1, 2])
     .duration(50)
-    .on('zoom', renderUpdate(config))
+    .on('zoom', zoomed)
 
   // Attach zoom behavior to the svg root
   svgroot.call(zoom)
@@ -122,6 +133,65 @@ function init(options) {
     ),
     20,
   ])
+
+  // Zoom update
+  function zoomed() {
+    svg.attr(
+      'transform',
+      'translate(' + zoom.translate() + ')' + 'scale(' + zoom.scale() + ')'
+    )
+  }
+
+  // To update translate and scale of zoom
+  function interpolateZoom(translate, scale) {
+    var self = this
+    return d3
+      .transition()
+      .duration(350)
+      .tween('zoom', function() {
+        var iTranslate = d3.interpolate(zoom.translate(), translate),
+          iScale = d3.interpolate(zoom.scale(), scale)
+        return function(t) {
+          zoom.scale(iScale(t)).translate(iTranslate(t))
+          zoomed()
+        }
+      })
+  }
+
+  // Zoom on button click
+  function zoomClick() {
+    var clicked = d3.event.target,
+      direction = 1,
+      factor = 0.2,
+      target_zoom = 1,
+      center = [elemWidth / 2, elemHeight / 2],
+      extent = zoom.scaleExtent(),
+      translate = zoom.translate(),
+      translate0 = [],
+      l = [],
+      view = { x: translate[0], y: translate[1], k: zoom.scale() }
+
+    d3.event.preventDefault()
+    direction = this.id === zoomInId ? 1 : -1
+    target_zoom = zoom.scale() * (1 + factor * direction)
+
+    if (target_zoom < extent[0] || target_zoom > extent[1]) {
+      return false
+    }
+
+    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k]
+    view.k = target_zoom
+    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y]
+
+    view.x += center[0] - l[0]
+    view.y += center[1] - l[1]
+
+    interpolateZoom([view.x, view.y], view.k)
+  }
+
+  // d3 selects button on click
+  d3.select(`#${zoomInId}`).on('click', zoomClick)
+  d3.select(`#${zoomOutId}`).on('click', zoomClick)
 
   // Add listener for when the browser or parent node resizes
   const resize = () => {
@@ -142,4 +212,19 @@ function init(options) {
 
   // Update DOM root height
   d3.select(id).style('height', elemHeight + margin.top + margin.bottom)
+
+  //creating  canvas and duplicate svg for image and PDF download
+  const canvasContainer = document.createElement('div')
+  canvasContainer.setAttribute('id', `${id}-canvas-container`)
+  canvasContainer.setAttribute('style', 'display:none;')
+
+  //duplicate svg container
+  const svgContainer = document.createElement('div')
+  svgContainer.setAttribute('id', `${id}-svg-container`)
+  svgContainer.setAttribute('style', 'display:none;')
+
+  //appending svg and canvas containers to root
+  const orgChart = document.getElementById('root')
+  orgChart.append(canvasContainer)
+  orgChart.append(svgContainer)
 }

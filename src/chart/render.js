@@ -1,15 +1,16 @@
-const { wrapText, helpers } = require('../utils')
+const d3 = require('d3')
+const { wrapText, helpers, covertImageToBase64 } = require('../utils')
 const renderLines = require('./renderLines')
-const renderImage = require('./renderImage')
+const exportOrgChartImage = require('./exportOrgChartImage')
+const exportOrgChartPdf = require('./exportOrgChartPdf')
 const onClick = require('./onClick')
 const iconLink = require('./components/iconLink')
 const supervisorIcon = require('./components/supervisorIcon')
-
 const CHART_NODE_CLASS = 'org-chart-node'
 const PERSON_LINK_CLASS = 'org-chart-person-link'
 const PERSON_NAME_CLASS = 'org-chart-person-name'
 const PERSON_TITLE_CLASS = 'org-chart-person-title'
-const PERSON_DEPARTMENT_CLASS = 'org-chart-person-dept'
+// const PERSON_DEPARTMENT_CLASS = 'org-chart-person-dept'
 const PERSON_REPORTS_CLASS = 'org-chart-person-reports'
 
 function render(config) {
@@ -34,6 +35,10 @@ function render(config) {
     sourceNode,
     onPersonLinkClick,
     loadImage,
+    downloadImageId,
+    downloadPdfId,
+    elemWidth,
+    margin,
   } = config
 
   // Compute the new tree layout.
@@ -163,29 +168,17 @@ function render(config) {
       d.person.hasImage
         ? d.person.avatar
         : loadImage(d).then(res => {
-            d.person.avatar = res
+            covertImageToBase64(res, function(dataUrl) {
+              d3.select(`#image-${d.id}`).attr('href', dataUrl)
+              d.person.avatar = dataUrl
+            })
             d.person.hasImage = true
-            d3.select(`#image-${d.id}`).attr('href', d.person.avatar)
             return d.person.avatar
           })
     })
     .attr('src', d => d.person.avatar)
-    .attr('xlink:href', d => d.person.avatar)
+    .attr('href', d => d.person.avatar)
     .attr('clip-path', 'url(#avatarClip)')
-
-  // // Person's Department
-  // nodeEnter
-  //   .append('text')
-  //   .attr('class', getDepartmentClass)
-  //   .attr('x', 34)
-  //   .attr('y', avatarWidth + nodePaddingY * 1.2)
-  //   .attr('dy', '.9em')
-  //   .style('cursor', 'pointer')
-  //   .style('fill', titleColor)
-  //   .style('font-weight', 600)
-  //   .style('font-size', 8)
-  //   .attr('text-anchor', 'middle')
-  //   .text(helpers.getTextForDepartment)
 
   // Person's Link
   const nodeLink = nodeEnter
@@ -242,13 +235,39 @@ function render(config) {
     d.x0 = d.x
     d.y0 = d.y
   })
+
+  var nodeLeftX = -70
+  var nodeRightX = 70
+  var nodeY = 200
+  nodes.map(d => {
+    nodeLeftX = d.x < nodeLeftX ? d.x : nodeLeftX
+    nodeRightX = d.x > nodeRightX ? d.x : nodeRightX
+    nodeY = d.y > nodeY ? d.y : nodeY
+  })
+
+  nodeLeftX = nodeLeftX * -1
+
+  const elemCenter = parseInt(nodeLeftX + nodeRightX / 2)
+
+  const translateX = `${parseInt(
+    elemCenter + (elemWidth - elemCenter * 2) / 2 - margin.left / 2
+  )}`
+
+  const translateY = 48
+
+  d3.select(downloadImageId).on('click', function() {
+    exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY)
+  })
+
+  d3.select(downloadPdfId).on('click', function() {
+    exportOrgChartPdf(
+      config,
+      nodeLeftX,
+      nodeRightX,
+      nodeY,
+      translateX,
+      translateY
+    )
+  })
 }
-
-function getDepartmentClass(d) {
-  const { person } = d
-  const deptClass = person.department ? person.department.toLowerCase() : ''
-
-  return [PERSON_DEPARTMENT_CLASS, deptClass].join(' ')
-}
-
 module.exports = render

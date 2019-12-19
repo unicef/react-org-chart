@@ -12,9 +12,9 @@ function onParentClick(config = {}, children) {
   }
 
   function handler(result) {
-    const currentNodeId = treeData.postNumber
+    const currentNodeId = treeData.id
     const tree = result.children.map(item => {
-      if (item.postNumber === currentNodeId) {
+      if (item.id === currentNodeId) {
         return { ...item, ...treeData }
       } else {
         return item
