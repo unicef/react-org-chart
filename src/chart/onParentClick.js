@@ -13,8 +13,12 @@ function onParentClick(config = {}, children) {
 
   function handler(result) {
     const currentNodeId = treeData.postNumber
+    const currentUserName = treeData.userName
     const tree = result.children.map(item => {
-      if (item.postNumber === currentNodeId) {
+      if (
+        item.postNumber === currentNodeId &&
+        item.userName === currentUserName
+      ) {
         return { ...item, ...treeData }
       } else {
         return item
