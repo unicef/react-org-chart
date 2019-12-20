@@ -20,11 +20,11 @@ module.exports = function supervisorIcon({
     .attr('id', 'supervisorIcon')
     .on('click', datum => {
       d3.event.stopPropagation()
-      onParentClick(config, treeData)
+      onParentClick(config, datum)
     })
     .attr('stroke', 'none')
     .attr('fill', 'none')
-    .style('display', treeData.postNumber === 1 ? 'none' : '')
+    .style('display', treeData.hasParent ? '' : 'none')
     .style('cursor', 'pointer')
     .append('g')
 
