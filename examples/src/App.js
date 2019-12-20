@@ -17,7 +17,6 @@ function getChild(id) {
 
 const tree = {
   id: 100,
-  postNumber: 100,
   person: {
     id: 100,
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
@@ -27,13 +26,13 @@ const tree = {
     totalReports: 1,
   },
   hasChild: true,
+  hasParent: true,
   children: [],
 }
 
 const tree1 = [
   {
     id: 36,
-    postNumber: 36,
     person: {
       id: 36,
       avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
@@ -43,6 +42,7 @@ const tree1 = [
       totalReports: 1,
     },
     hasChild: true,
+    hasParent: true,
     // children: [],
   },
 ]
@@ -50,22 +50,21 @@ const tree1 = [
 const tree2 = [
   {
     id: 56,
-    postNumber: 56,
     person: {
       id: 56,
       avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
       department: '',
       name: 'Sam John',
       title: 'HR',
-      totalReports: 2,
-      link: 'aghhshsh',
+      totalReports: 1,
+      link: 'https://github.com/unicef/react-org-chart',
     },
     hasChild: true,
+    hasParent: true,
     // children: [],
   },
   {
     id: 60,
-    postNumber: 60,
     person: {
       id: 60,
       avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
@@ -75,6 +74,7 @@ const tree2 = [
       totalReports: 0,
     },
     hasChild: false,
+    hasParent: true,
     children: [],
   },
 ]
@@ -82,7 +82,6 @@ const tree2 = [
 const tree3 = [
   {
     id: 70,
-    postNumber: 70,
     person: {
       id: 70,
       avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
@@ -92,6 +91,7 @@ const tree3 = [
       totalReports: 0,
     },
     hasChild: false,
+    hasParent: true,
     children: [],
   },
 ]
@@ -111,7 +111,6 @@ export default function App() {
         if (d.id === 100) {
           return {
             id: 500,
-            postNumber: 500,
             person: {
               id: 500,
               avatar:
@@ -122,12 +121,12 @@ export default function App() {
               totalReports: 1,
             },
             hasChild: false,
+            hasParent: true,
             children: [d],
           }
         } else if (d.id === 500) {
           return {
             id: 1,
-            postNumber: 1,
             person: {
               id: 1,
               avatar:
@@ -138,6 +137,7 @@ export default function App() {
               totalReports: 1,
             },
             hasChild: false,
+            hasParent: false,
             children: [d],
           }
         } else {
