@@ -100,54 +100,60 @@ export default function App() {
   const treeData = tree
 
   return (
-    <OrgChart
-      tree={treeData}
-      loadImage={d => {
-        return Promise.resolve(
-          'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg'
-        )
-      }}
-      getParent={d => {
-        if (d.id === 100) {
-          return {
-            id: 500,
-            person: {
+    <React.Fragment>
+      <button id="zoom-in">+</button>
+      <button id="zoom-out">-</button>
+      <button id="download-image">Download as image</button>
+      <button id="download-pdf">Download as PDF</button>
+      <OrgChart
+        tree={treeData}
+        loadImage={d => {
+          return Promise.resolve(
+            'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg'
+          )
+        }}
+        getParent={d => {
+          if (d.id === 100) {
+            return {
               id: 500,
-              avatar:
-                'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
-              department: '',
-              name: 'Pascal ruth',
-              title: 'Member',
-              totalReports: 1,
-            },
-            hasChild: false,
-            hasParent: true,
-            children: [d],
-          }
-        } else if (d.id === 500) {
-          return {
-            id: 1,
-            person: {
+              person: {
+                id: 500,
+                avatar:
+                  'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+                department: '',
+                name: 'Pascal ruth',
+                title: 'Member',
+                totalReports: 1,
+              },
+              hasChild: false,
+              hasParent: true,
+              children: [d],
+            }
+          } else if (d.id === 500) {
+            return {
               id: 1,
-              avatar:
-                'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
-              department: '',
-              name: 'Bryce joe',
-              title: 'Director',
-              totalReports: 1,
-            },
-            hasChild: false,
-            hasParent: false,
-            children: [d],
+              person: {
+                id: 1,
+                avatar:
+                  'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+                department: '',
+                name: 'Bryce joe',
+                title: 'Director',
+                totalReports: 1,
+              },
+              hasChild: false,
+              hasParent: false,
+              children: [d],
+            }
+          } else {
+            return d
           }
-        } else {
-          return d
-        }
-      }}
-      loadChildren={d => {
-        const childrenData = getChild(d.id)
-        return childrenData
-      }}
-    />
+        }}
+        loadChildren={d => {
+          const childrenData = getChild(d.id)
+          return childrenData
+        }}
+      />
+    </React.Fragment>
   )
 }

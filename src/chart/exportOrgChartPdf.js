@@ -39,7 +39,7 @@ function exportOrgChartPdf(
   step.setAttribute('width', w)
   step.setAttribute('height', h)
   step.setAttribute('viewBox', `${translateX} ${translateY} ${w} ${h + 400}`)
-  step.innerHTML = $('#svg').html()
+  step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
     ? document

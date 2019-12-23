@@ -5,7 +5,7 @@ module.exports = exportOrgChartImage
 function exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY) {
   var w = nodeLeftX + nodeRightX
   var h = nodeY
-  var ratio = 2
+  var ratio = 3
 
   const { id, downlowdedOrgChart } = config
   // checking wether it has canvas in the convas-container div
@@ -29,7 +29,7 @@ function exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY) {
   step.setAttribute('width', w)
   step.setAttribute('height', h)
   step.setAttribute('viewBox', `${-nodeLeftX} 0 ${w} ${h + 200}`)
-  step.innerHTML = $('#svg').html()
+  step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById('#react-org-chart-svg-container').querySelector('svg')
     ? document
