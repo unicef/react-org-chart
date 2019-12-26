@@ -5,17 +5,17 @@ function onParentClick(configOnClick, children) {
 
   const { loadConfig } = configOnClick
   const config = loadConfig()
-  const { getParent } = config
+  const { loadParent } = config
 
   // If this person have `hasParent` is true,
-  // attempt to load using the `getParent` config function
+  // attempt to load using the `loadParent` config function
   if (children.hasParent) {
-    if (!getParent) {
-      console.error('react-org-chart.onClick: getParent() not found in config')
+    if (!loadParent) {
+      console.error('react-org-chart.onClick: loadParent() not found in config')
       return
     }
 
-    const result = getParent(children)
+    const result = loadParent(children)
     const handler = handleResult(config, children)
 
     // Check if the result is a promise and render the children

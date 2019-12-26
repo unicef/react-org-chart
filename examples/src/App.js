@@ -112,7 +112,7 @@ export default function App() {
             'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg'
           )
         }}
-        getParent={d => {
+        loadParent={d => {
           if (d.id === 100) {
             return {
               id: 500,
