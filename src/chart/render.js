@@ -39,6 +39,7 @@ function render(config) {
     downloadPdfId,
     elemWidth,
     margin,
+    setConfig,
   } = config
 
   // Compute the new tree layout.
@@ -269,5 +270,6 @@ function render(config) {
       translateY
     )
   })
+  setConfig(config)
 }
 module.exports = render
