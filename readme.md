@@ -34,7 +34,7 @@ Added:
 | downloadPdfId     | `String`   | Download the svg as pdf by clicking button with this id (Optional)        | "download-pdf" (default)                                           |
 | zoomInId          | `String`   | Handle zoom in with button (Optional)                                     | "zoom-in" (default)                                                |
 | zoomOutId         | `String`   | Handle zoom out with button (Optional)                                    | "zoom-out" (default)                                               |
-| getParent         | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
+| loadParent        | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
 | loadChildren      | `Function` | Load the children of particular node (Optional)                           | check usage below                                                  |
 | setConfig         | `Function` | To set the latest config to state                                         | check usage below                                                  |
 | loadConfig        | `Function` | Pass latest config from state to chart                                    | check usage below                                                  |
@@ -56,18 +56,22 @@ render(){
         this.setState({ config: config })
       }}
       loadConfig={d => {
-        let configuration = this.handleConfig(d)
+        // handleConfig(): Returns latest config from state
+        const configuration = this.handleConfig(d)
         return configuration
       }}
-      getParent={personData => {
+      loadParent={personData => {
+        // getParentData(): To get the parent data from API
         const loadedParent = this.getParentData(personData)
         return Promise.resolve(loadedParent)
       }}
       loadChildren={personData => {
+        // getChildrenData(): To get the children data from API
         const loadedChildren = this.getChildrenData(personData)
         return Promise.resolve(loadedChildren)
       }}
       loadImage={personData => {
+        // getImage(): To get the image from API
         const image = getImage(personData.email)
         return Promise.resolve(image)
       }}
