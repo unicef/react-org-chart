@@ -40,7 +40,7 @@ Added:
 | loadConfig        | `Function` | Pass latest config from state to chart                                    | check usage below                                                  |
 | loadImage         | `Function` | To get image of person on API call (Optional)                             | check usage below                                                  |
 
-# Usage
+### Usage
 
 ```jsx
 import React from 'react'
@@ -76,7 +76,7 @@ render(){
 }
 ```
 
-# Sample tree data
+### Sample tree data
 
 ```jsx
 
