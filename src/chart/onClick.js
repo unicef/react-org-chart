@@ -3,10 +3,12 @@ const { collapse } = require('../utils')
 
 module.exports = onClick
 
-function onClick(config = {}) {
-  const { loadChildren, render, onPersonClick } = config
+function onClick(configOnClick) {
+  const { loadConfig } = configOnClick
 
   return datum => {
+    const config = loadConfig()
+    const { loadChildren, render, onPersonClick } = config
     event.preventDefault()
 
     if (onPersonClick) {
