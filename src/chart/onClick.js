@@ -7,6 +7,7 @@ function onClick(configOnClick) {
   const { loadConfig } = configOnClick
 
   return datum => {
+    if (d3.event.defaultPrevented) return
     const config = loadConfig()
     const { loadChildren, render, onPersonClick } = config
     event.preventDefault()

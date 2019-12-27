@@ -18,8 +18,8 @@ module.exports = function supervisorIcon({
   const container = svg
     .append('g')
     .attr('id', 'supervisorIcon')
-    .on('click', datum => {
-      d3.event.stopPropagation()
+    .on('click', d => {
+      if (d3.event.defaultPrevented) return
       onParentClick(config, treeData)
     })
     .attr('stroke', 'none')
