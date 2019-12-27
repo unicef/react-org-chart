@@ -145,6 +145,7 @@ function init(options) {
   // To update translate and scale of zoom
   function interpolateZoom(translate, scale) {
     var self = this
+    d3.event.sourceEvent.stopPropagation()
     return d3
       .transition()
       .duration(350)
