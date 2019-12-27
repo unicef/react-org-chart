@@ -53,10 +53,20 @@ render(){
       downloadImageId="download-image"
       downloadPdfId="download-pdf"
       setConfig={config => {
+        // Setting latest config to state
         this.setState({ config: config })
       }}
       loadConfig={d => {
-        // handleConfig(): Returns latest config from state
+        /**
+         * Don't return the value directly, it will return empty value
+         * Call function (Ex: handleConfig) and return value (Ex: configuration)
+         *
+         * handleConfig() function returns latest config from state
+         * Ex: handleConfig = () => {
+         *       const { config } = this.state
+         *       return config
+         *     }
+         **/
         const configuration = this.handleConfig(d)
         return configuration
       }}
