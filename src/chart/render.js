@@ -10,7 +10,7 @@ const CHART_NODE_CLASS = 'org-chart-node'
 const PERSON_LINK_CLASS = 'org-chart-person-link'
 const PERSON_NAME_CLASS = 'org-chart-person-name'
 const PERSON_TITLE_CLASS = 'org-chart-person-title'
-// const PERSON_DEPARTMENT_CLASS = 'org-chart-person-dept'
+const PERSON_HIGHLIGHT = 'org-chart-person-highlight'
 const PERSON_REPORTS_CLASS = 'org-chart-person-reports'
 
 function render(config) {
@@ -39,6 +39,7 @@ function render(config) {
     downloadPdfId,
     elemWidth,
     margin,
+    setConfig,
   } = config
 
   // Compute the new tree layout.
@@ -95,6 +96,7 @@ function render(config) {
   // Person Card Container
   nodeEnter
     .append('rect')
+    .attr('class', d => (d.isHighlight ? `${PERSON_HIGHLIGHT} box` : 'box'))
     .attr('width', nodeWidth)
     .attr('height', nodeHeight)
     .attr('id', d => d.id)
@@ -103,7 +105,6 @@ function render(config) {
     .attr('rx', nodeBorderRadius)
     .attr('ry', nodeBorderRadius)
     .style('cursor', helpers.getCursorForNode)
-    .attr('class', 'box')
 
   const namePos = {
     x: nodeWidth / 2,
@@ -269,5 +270,6 @@ function render(config) {
       translateY
     )
   })
+  setConfig(config)
 }
 module.exports = render

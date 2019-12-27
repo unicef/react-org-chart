@@ -30,11 +30,86 @@ Added:
 | nodeSpacing       | `Number`   | Spacing between each of the nodes in the chart (Optional)                 | 12                                                                 |
 | animationDuration | `Number`   | Duration of the animations in milliseconds (Optional)                     | 350                                                                |
 | lineType          | `String`   | Type of line that connects the nodes to each other (Optional)             | “angle” “curve”                                                    |
-| getParent         | `Function` | Load parent with one level children (Optional)                            | {children => {return Promise.resolve(parent)}}                     |
 | downloadImageId   | `String`   | Download the svg as image(png) by clicking button with this id (Optional) | "download-image" (default)                                         |
 | downloadPdfId     | `String`   | Download the svg as pdf by clicking button with this id (Optional)        | "download-pdf" (default)                                           |
 | zoomInId          | `String`   | Handle zoom in with button (Optional)                                     | "zoom-in" (default)                                                |
 | zoomOutId         | `String`   | Handle zoom out with button (Optional)                                    | "zoom-out" (default)                                               |
+| loadParent        | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
+| loadChildren      | `Function` | Load the children of particular node (Optional)                           | check usage below                                                  |
+| setConfig         | `Function` | To set the latest config to state                                         | check usage below                                                  |
+| loadConfig        | `Function` | Pass latest config from state to chart                                    | check usage below                                                  |
+| loadImage         | `Function` | To get image of person on API call (Optional)                             | check usage below                                                  |
+
+### Usage
+
+```jsx
+import React from 'react'
+import OrgChart from '@unicef/react-org-chart'
+
+render(){
+  return (
+    <OrgChart
+      tree={tree}
+      downloadImageId="download-image"
+      downloadPdfId="download-pdf"
+      setConfig={config => {
+        // Setting latest config to state
+        this.setState({ config: config })
+      }}
+      loadConfig={d => {
+        /**
+         * Don't return the value directly, it will return empty value
+         * Call function (Ex: handleConfig) and return value (Ex: configuration)
+         *
+         * handleConfig() function returns latest config from state
+         * Ex: handleConfig = () => {
+         *       const { config } = this.state
+         *       return config
+         *     }
+         **/
+        const configuration = this.handleConfig(d)
+        return configuration
+      }}
+      loadParent={personData => {
+        // getParentData(): To get the parent data from API
+        const loadedParent = this.getParentData(personData)
+        return Promise.resolve(loadedParent)
+      }}
+      loadChildren={personData => {
+        // getChildrenData(): To get the children data from API
+        const loadedChildren = this.getChildrenData(personData)
+        return Promise.resolve(loadedChildren)
+      }}
+      loadImage={personData => {
+        // getImage(): To get the image from API
+        const image = getImage(personData.email)
+        return Promise.resolve(image)
+      }}
+    />
+  )
+}
+```
+
+### Sample tree data
+
+```jsx
+
+{
+  id: 1,
+    person: {
+    id: 1,
+    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+    department: '',
+    name: 'Imelda Haley',
+    title: 'CEO',
+    totalReports: 5
+    },
+  hasChild: true,
+  hasParent: false,
+  children: []
+}
+
+```
 
 # Development
 
