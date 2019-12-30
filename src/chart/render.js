@@ -246,7 +246,9 @@ function render(config) {
     nodeY = d.y > nodeY ? d.y : nodeY
   })
 
-  nodeLeftX = nodeLeftX * -1
+  config.nodeRightX = nodeRightX
+  config.nodeY = nodeY
+  config.nodeLeftX = nodeLeftX * -1
 
   const elemCenter = parseInt(nodeLeftX + nodeRightX / 2)
 

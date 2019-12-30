@@ -34,6 +34,7 @@ Added:
 | downloadPdfId     | `String`   | Download the svg as pdf by clicking button with this id (Optional)        | "download-pdf" (default)                                           |
 | zoomInId          | `String`   | Handle zoom in with button (Optional)                                     | "zoom-in" (default)                                                |
 | zoomOutId         | `String`   | Handle zoom out with button (Optional)                                    | "zoom-out" (default)                                               |
+| zoomExtentId      | `String`   | To fit the whole svg in the screen(Optional)                              | "zoom-extent" (default)                                            |
 | loadParent        | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
 | loadChildren      | `Function` | Load the children of particular node (Optional)                           | check usage below                                                  |
 | setConfig         | `Function` | To set the latest config to state                                         | check usage below                                                  |
