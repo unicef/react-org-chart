@@ -33,10 +33,11 @@ Added:
 | downloadImageId   | `String`   | Id of the DOM element that, on click, will trigger the download of the org chart as PNG. OrgChart will bind the click event to the DOM element with this ID (Optional) | "download-image" (default)                                         |
 | downloadPdfId     | `String`   | Id of the DOM element that, on click, will trigger the download of the org chart as PDF. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)        | "download-pdf" (default)                                           |
 | zoomInId          | `String`   | Id of the DOM element that, on click, will trigger a zoom of the org chart. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)                                     | "zoom-in" (default)                                                |
-| zoomOutId         | `String`   | Id of the DOM element that, on click, will trigger the zoom out of the org chart. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)                                    | "zoom-out" (default)                                               |
+| zoomOutId         | `String`   | Id of the DOM element that, on click, will trigger the zoom out of the org chart. OrgChart will bind the click event to the DOM element with this ID (Optional)                                  | "zoom-out" (default)                                               |
+| zoomExtentId      | `String`   | Id of the DOM element that, on click, will display whole org chart svg fit to screen. OrgChart will bind the click event to the DOM element with this ID(Optional)                              | "zoom-extent" (default)                                            |
 | loadParent(personData)        | `Function` | Load parent with one level of children (Optional)                         | See usage below                                                  |
 | loadChildren (personData)      | `Function` | Load the children of particular node (Optional)                           | See usage below                                                  |
-| setConfig (config)         | `Function` | To set the latest config to state                                         | See usage below                                                  |
+| onConfigChange    | `Function` | To set the latest config to state on change                               | See usage below                                                  |
 | loadConfig        | `Function` | Pass latest config from state to OrgChart                                    | See usage below                                                  |
 | loadImage(personData)         | `Function` | To get image of person on API call (Optional)                             | See usage below                                                  |
 
@@ -79,7 +80,6 @@ Added:
 
 ```
 
-
 ### Usage
 
 You have a complete working example in the **[examples/](https://github.com/unicef/react-org-chart/tree/master/examples)** folder 
@@ -99,7 +99,7 @@ render(){
       tree={tree}
       downloadImageId="download-image"
       downloadPdfId="download-pdf"
-      setConfig={config => {
+      onConfigChange={config => {
         // Setting latest config to state
         this.setState({ config: config })
       }}

@@ -39,7 +39,7 @@ function render(config) {
     downloadPdfId,
     elemWidth,
     margin,
-    setConfig,
+    onConfigChange,
   } = config
 
   // Compute the new tree layout.
@@ -246,7 +246,9 @@ function render(config) {
     nodeY = d.y > nodeY ? d.y : nodeY
   })
 
-  nodeLeftX = nodeLeftX * -1
+  config.nodeRightX = nodeRightX
+  config.nodeY = nodeY
+  config.nodeLeftX = nodeLeftX * -1
 
   const elemCenter = parseInt(nodeLeftX + nodeRightX / 2)
 
@@ -270,6 +272,6 @@ function render(config) {
       translateY
     )
   })
-  setConfig(config)
+  onConfigChange(config)
 }
 module.exports = render

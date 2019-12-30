@@ -33,6 +33,8 @@ function init(options) {
     shouldResize,
     zoomInId,
     zoomOutId,
+    zoomExtentId,
+    loadConfig,
   } = config
 
   // Calculate how many pixel nodes to be spaced based on the
@@ -145,7 +147,7 @@ function init(options) {
   // To update translate and scale of zoom
   function interpolateZoom(translate, scale) {
     var self = this
-    d3.event.sourceEvent.stopPropagation()
+    d3.event.preventDefault()
     return d3
       .transition()
       .duration(350)
@@ -161,6 +163,36 @@ function init(options) {
 
   // Zoom on button click
   function zoomClick() {
+    //Zoom extent to fit svg on the screen
+    if (this.id === zoomExtentId) {
+      const latestConfig = loadConfig()
+      const {
+        nodeLeftX,
+        nodeRightX,
+        nodeY,
+        elemHeight,
+        elemWidth,
+      } = latestConfig
+
+      const svgWidth = nodeLeftX + nodeRightX
+      const svgHeight = nodeY + nodeHeight * 2 + 48
+      let scaleX = elemWidth / svgWidth - 0.03
+      let scaleY = elemHeight / svgHeight - 0.03
+      let scale = scaleX < scaleY ? scaleX : scaleY
+      let translateX = nodeLeftX * scale + margin.left / 2
+
+      if (svgWidth > elemWidth || svgHeight > elemHeight) {
+        //If width is more than height
+        if (scaleX < scaleY) {
+          interpolateZoom([translateX, 48], scale)
+          //If height is more than width
+        } else if (scaleX > scaleY) {
+          translateX = elemWidth / 2 - margin.left / 2
+          interpolateZoom([translateX, 48], scale)
+        }
+      }
+      return
+    }
     var clicked = d3.event.target,
       direction = 1,
       factor = 0.2,
@@ -193,6 +225,7 @@ function init(options) {
   // d3 selects button on click
   d3.select(`#${zoomInId}`).on('click', zoomClick)
   d3.select(`#${zoomOutId}`).on('click', zoomClick)
+  d3.select(`#${zoomExtentId}`).on('click', zoomClick)
 
   // Add listener for when the browser or parent node resizes
   const resize = () => {
