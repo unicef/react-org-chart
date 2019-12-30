@@ -24,27 +24,74 @@ Added:
 
 | **property**      | **type**   | **description**                                                           | **example**                                                        |
 | ----------------- | ---------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| tree              | `Object`   | Nested data model with all of the employees in the company (Required)     | { "id": 123, "person": { "name": "Fouad Matin" }, "children": [] } |  |
+| tree              | `Object`   | Nested data model with some of all the employees in the company (Required)     | See sample below. |
 | nodeWidth         | `Number`   | Width of the component for each individual (Optional)                     | 180                                                                |
 | nodeHeight        | `Number`   | Height of the component for each individual (Optional)                    | 100                                                                |
 | nodeSpacing       | `Number`   | Spacing between each of the nodes in the chart (Optional)                 | 12                                                                 |
 | animationDuration | `Number`   | Duration of the animations in milliseconds (Optional)                     | 350                                                                |
 | lineType          | `String`   | Type of line that connects the nodes to each other (Optional)             | “angle” “curve”                                                    |
-| downloadImageId   | `String`   | Download the svg as image(png) by clicking button with this id (Optional) | "download-image" (default)                                         |
-| downloadPdfId     | `String`   | Download the svg as pdf by clicking button with this id (Optional)        | "download-pdf" (default)                                           |
-| zoomInId          | `String`   | Handle zoom in with button (Optional)                                     | "zoom-in" (default)                                                |
-| zoomOutId         | `String`   | Handle zoom out with button (Optional)                                    | "zoom-out" (default)                                               |
-| loadParent        | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
-| loadChildren      | `Function` | Load the children of particular node (Optional)                           | check usage below                                                  |
-| setConfig         | `Function` | To set the latest config to state                                         | check usage below                                                  |
-| loadConfig        | `Function` | Pass latest config from state to chart                                    | check usage below                                                  |
-| loadImage         | `Function` | To get image of person on API call (Optional)                             | check usage below                                                  |
+| downloadImageId   | `String`   | Id of the DOM element that, on click, will trigger the download of the org chart as PNG. OrgChart will bind the click event to the DOM element with this ID (Optional) | "download-image" (default)                                         |
+| downloadPdfId     | `String`   | Id of the DOM element that, on click, will trigger the download of the org chart as PDF. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)        | "download-pdf" (default)                                           |
+| zoomInId          | `String`   | Id of the DOM element that, on click, will trigger a zoom of the org chart. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)                                     | "zoom-in" (default)                                                |
+| zoomOutId         | `String`   | Id of the DOM element that, on click, will trigger the zoom out of the org chart. OrgChart will bind the click event to the DOM element with this ID (Optional)  (Optional)                                    | "zoom-out" (default)                                               |
+| loadParent(personData)        | `Function` | Load parent with one level of children (Optional)                         | See usage below                                                  |
+| loadChildren (personData)      | `Function` | Load the children of particular node (Optional)                           | See usage below                                                  |
+| setConfig (config)         | `Function` | To set the latest config to state                                         | See usage below                                                  |
+| loadConfig        | `Function` | Pass latest config from state to OrgChart                                    | See usage below                                                  |
+| loadImage(personData)         | `Function` | To get image of person on API call (Optional)                             | See usage below                                                  |
+
+
+
+### Sample tree data
+
+```jsx
+
+{
+  id: 1,
+  person: {
+    id: 1,
+    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+    department: '',
+    name: 'Jane Doe',
+    title: 'CEO',
+    totalReports: 5
+  },
+  hasChild: true,
+  hasParent: false,
+  children: [
+    {
+    id: 2,
+    person: {
+      id: 2,
+      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      department: '',
+      name: 'John Foo',
+      title: 'CTO',
+      totalReports: 0
+    },
+    hasChild: false,
+    hasParent: true,
+    children: []
+  },
+  ...
+  ]
+}
+
+```
+
 
 ### Usage
+
+You have a complete working example in the **[examples/](https://github.com/unicef/react-org-chart/tree/master/examples)** folder 
 
 ```jsx
 import React from 'react'
 import OrgChart from '@unicef/react-org-chart'
+
+handleLoadConfig = () => {
+   const { config } = this.state
+   return config
+}
 
 render(){
   return (
@@ -57,18 +104,9 @@ render(){
         this.setState({ config: config })
       }}
       loadConfig={d => {
-        /**
-         * Don't return the value directly, it will return empty value
-         * Call function (Ex: handleConfig) and return value (Ex: configuration)
-         *
-         * handleConfig() function returns latest config from state
-         * Ex: handleConfig = () => {
-         *       const { config } = this.state
-         *       return config
-         *     }
-         **/
-        const configuration = this.handleConfig(d)
-        return configuration
+         // Called from d3 to get latest version of the config. 
+        const config = this.handleLoadConfig(d)
+        return config
       }}
       loadParent={personData => {
         // getParentData(): To get the parent data from API
@@ -90,26 +128,6 @@ render(){
 }
 ```
 
-### Sample tree data
-
-```jsx
-
-{
-  id: 1,
-    person: {
-    id: 1,
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
-    department: '',
-    name: 'Imelda Haley',
-    title: 'CEO',
-    totalReports: 5
-    },
-  hasChild: true,
-  hasParent: false,
-  children: []
-}
-
-```
 
 # Development
 
