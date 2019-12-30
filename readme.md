@@ -37,7 +37,7 @@ Added:
 | zoomExtentId      | `String`   | To fit the whole svg in the screen(Optional)                              | "zoom-extent" (default)                                            |
 | loadParent        | `Function` | Load parent with one level of children (Optional)                         | check usage below                                                  |
 | loadChildren      | `Function` | Load the children of particular node (Optional)                           | check usage below                                                  |
-| setConfig         | `Function` | To set the latest config to state                                         | check usage below                                                  |
+| onConfigChange    | `Function` | To set the latest config to state on change                               | check usage below                                                  |
 | loadConfig        | `Function` | Pass latest config from state to chart                                    | check usage below                                                  |
 | loadImage         | `Function` | To get image of person on API call (Optional)                             | check usage below                                                  |
 
@@ -53,7 +53,7 @@ render(){
       tree={tree}
       downloadImageId="download-image"
       downloadPdfId="download-pdf"
-      setConfig={config => {
+      onConfigChange={config => {
         // Setting latest config to state
         this.setState({ config: config })
       }}
