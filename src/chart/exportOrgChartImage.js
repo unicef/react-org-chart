@@ -2,12 +2,13 @@ const d3 = require('d3')
 
 module.exports = exportOrgChartImage
 
-function exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY) {
+function exportOrgChartImage({ loadConfig }) {
+  const config = loadConfig()
+  const { id, downlowdedOrgChart, nodeLeftX, nodeRightX, nodeY } = config
   var w = nodeLeftX + nodeRightX
   var h = nodeY
-  var ratio = 3
+  var ratio = 1
 
-  const { id, downlowdedOrgChart } = config
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
     ? document

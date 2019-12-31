@@ -259,7 +259,7 @@ function render(config) {
   const translateY = 48
 
   d3.select(downloadImageId).on('click', function() {
-    exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY)
+    exportOrgChartImage(config)
   })
 
   d3.select(downloadPdfId).on('click', function() {
