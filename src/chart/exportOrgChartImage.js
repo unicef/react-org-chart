@@ -7,7 +7,7 @@ function exportOrgChartImage({ loadConfig }) {
   const { id, downlowdedOrgChart, nodeLeftX, nodeRightX, nodeY } = config
   var w = nodeLeftX + nodeRightX
   var h = nodeY
-  var ratio = 1
+  var ratio = 2
 
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
@@ -61,11 +61,13 @@ function exportOrgChartImage({ loadConfig }) {
   // downloading the image
   image.onload = function() {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    let canvasData = canvas.toDataURL('image/png')
-    let a = document.createElement('a')
-    a.download = 'orgchart.png'
-    a.href = canvasData
-    a.click()
+    canvas.toBlob(function(blob) {
+      let a = document.createElement('a')
+      let url = URL.createObjectURL(blob)
+      a.download = 'orgchart.jpg'
+      a.href = url
+      a.click()
+    })
     downlowdedOrgChart(true)
   }
 }
