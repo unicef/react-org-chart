@@ -263,14 +263,7 @@ function render(config) {
   })
 
   d3.select(downloadPdfId).on('click', function() {
-    exportOrgChartPdf(
-      config,
-      nodeLeftX,
-      nodeRightX,
-      nodeY,
-      translateX,
-      translateY
-    )
+    exportOrgChartPdf(config)
   })
   onConfigChange(config)
 }

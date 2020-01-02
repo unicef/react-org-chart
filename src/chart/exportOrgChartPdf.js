@@ -2,21 +2,29 @@ const jsPDF = require('jspdf')
 
 module.exports = exportOrgChartPdf
 
-function exportOrgChartPdf(
-  config,
-  nodeLeftX,
-  nodeRightX,
-  nodeY,
-  translateX,
-  translateY
-) {
-  var w = nodeLeftX + nodeRightX
-  var h = nodeY
+function exportOrgChartPdf({ loadConfig }) {
+  const config = loadConfig()
+  const {
+    id,
+    downlowdedOrgChart,
+    nodeLeftX,
+    nodeRightX,
+    nodeY,
+    elemHeight,
+    elemWidth,
+    nodeHeight,
+    margin,
+  } = config
+
   var ratio = 3
 
-  const { id, downlowdedOrgChart } = config
-
-  const scale = nodeLeftX > 7000 ? 'scale(0.7)' : ''
+  const svgWidth = nodeLeftX + nodeRightX
+  const svgHeight = nodeY + nodeHeight + 48
+  let scaleX = elemWidth / svgWidth
+  let scaleY = elemHeight / svgHeight
+  let chooseScale = scaleX < scaleY ? scaleX : scaleY
+  let scale = svgWidth > elemWidth ? chooseScale - 0.03 : 0.5
+  let translateX = nodeLeftX * scale + margin.left / 2
 
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
@@ -29,16 +37,16 @@ function exportOrgChartPdf(
   // creating a canvas element
   var canvas1 = document.createElement('canvas')
   canvas1.id = 'canvas1'
-  canvas1.width = w * ratio
-  canvas1.height = h * ratio
+  canvas1.width = svgWidth * ratio
+  canvas1.height = svgHeight * ratio
   document.getElementById(`${id}-canvas-container`).appendChild(canvas1)
 
   // creating duplicate org chart svg from original org chart svg
   var step = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   step.id = 'newsvg'
-  step.setAttribute('width', w)
-  step.setAttribute('height', h)
-  step.setAttribute('viewBox', `${translateX} ${translateY} ${w} ${h + 400}`)
+  step.setAttribute('width', svgWidth)
+  step.setAttribute('height', svgHeight)
+  step.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
@@ -51,11 +59,7 @@ function exportOrgChartPdf(
 
   // appending g element from svg
   const g = document.getElementById(`${id}-svg-container`).querySelector('g')
-  g.setAttribute(
-    'transform',
-    `translate(${translateX},
-    ${translateY}) ${scale}`
-  )
+  g.setAttribute('transform', `translate(${translateX}, 2) scale(${scale})`)
   var html = new XMLSerializer().serializeToString(
     document.getElementById(`${id}-svg-container`).querySelector('svg')
   )
@@ -70,10 +74,11 @@ function exportOrgChartPdf(
   // downloading the image
   image.onload = function() {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    let canvasData = canvas.toDataURL('image/png')
-    let doc = new jsPDF('l', 'px', [canvas.width, canvas.height * 2])
-    doc.addImage(canvasData, 'PNG', 0, 0, canvas.width, canvas.height)
-    doc.save('orgchart.pdf')
+    let canvasData = canvas.toDataURL('image/jpeg,1.0')
+
+    let pdf = new jsPDF('l', 'px', [canvas.width, canvas.height])
+    pdf.addImage(canvasData, 'JPEG', 15, 2, canvas.width, canvas.height)
+    pdf.save('Orgchart.pdf')
     downlowdedOrgChart(true)
   }
 }
