@@ -59,6 +59,7 @@ Added:
   },
   hasChild: true,
   hasParent: false,
+  isHighlight: true,
   children: [
     {
     id: 2,
@@ -72,6 +73,7 @@ Added:
     },
     hasChild: false,
     hasParent: true,
+    isHighlight: false,
     children: []
   },
   ...
