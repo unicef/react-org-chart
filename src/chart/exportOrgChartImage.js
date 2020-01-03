@@ -2,12 +2,13 @@ const d3 = require('d3')
 
 module.exports = exportOrgChartImage
 
-function exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY) {
+function exportOrgChartImage({ loadConfig }) {
+  const config = loadConfig()
+  const { id, downlowdedOrgChart, nodeLeftX, nodeRightX, nodeY } = config
   var w = nodeLeftX + nodeRightX
   var h = nodeY
-  var ratio = 3
+  var ratio = 2
 
-  const { id, downlowdedOrgChart } = config
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
     ? document
@@ -60,11 +61,13 @@ function exportOrgChartImage(config, nodeLeftX, nodeRightX, nodeY) {
   // downloading the image
   image.onload = function() {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    let canvasData = canvas.toDataURL('image/png')
-    let a = document.createElement('a')
-    a.download = 'orgchart.png'
-    a.href = canvasData
-    a.click()
+    canvas.toBlob(function(blob) {
+      let a = document.createElement('a')
+      let url = URL.createObjectURL(blob)
+      a.download = 'orgchart.jpg'
+      a.href = url
+      a.click()
+    })
     downlowdedOrgChart(true)
   }
 }
