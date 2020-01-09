@@ -50,7 +50,7 @@ function render(config) {
   config.nodes = nodes
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) {
+  nodes.forEach(function (d) {
     d.y = d.depth * lineDepthY
   })
 
@@ -169,13 +169,13 @@ function render(config) {
       d.person.hasImage
         ? d.person.avatar
         : loadImage(d).then(res => {
-            covertImageToBase64(res, function(dataUrl) {
-              d3.select(`#image-${d.id}`).attr('href', dataUrl)
-              d.person.avatar = dataUrl
-            })
-            d.person.hasImage = true
-            return d.person.avatar
+          covertImageToBase64(res, function (dataUrl) {
+            d3.select(`#image-${d.id}`).attr('href', dataUrl)
+            d.person.avatar = dataUrl
           })
+          d.person.hasImage = true
+          return d.person.avatar
+        })
     })
     .attr('src', d => d.person.avatar)
     .attr('href', d => d.person.avatar)
@@ -232,7 +232,7 @@ function render(config) {
   renderLines(config)
 
   // Stash the old positions for transition.
-  nodes.forEach(function(d) {
+  nodes.forEach(function (d) {
     d.x0 = d.x
     d.y0 = d.y
   })
@@ -258,11 +258,11 @@ function render(config) {
 
   const translateY = 48
 
-  d3.select(downloadImageId).on('click', function() {
+  d3.select(downloadImageId).on('click', function () {
     exportOrgChartImage(config)
   })
 
-  d3.select(downloadPdfId).on('click', function() {
+  d3.select(downloadPdfId).on('click', function () {
     exportOrgChartPdf(config)
   })
   onConfigChange(config)

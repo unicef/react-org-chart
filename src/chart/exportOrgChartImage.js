@@ -12,9 +12,9 @@ function exportOrgChartImage({ loadConfig }) {
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
     ? document
-        .getElementById(`${id}-canvas-container`)
-        .querySelector('canvas')
-        .remove()
+      .getElementById(`${id}-canvas-container`)
+      .querySelector('canvas')
+      .remove()
     : ''
 
   // creating a canvas element
@@ -32,22 +32,22 @@ function exportOrgChartImage({ loadConfig }) {
   step.setAttribute('viewBox', `${-nodeLeftX} 0 ${w} ${h + 200}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
-  document.getElementById('#react-org-chart-svg-container').querySelector('svg')
+  document.getElementById(`${id}-svg-container`).querySelector('svg')
     ? document
-        .getElementById('#react-org-chart-svg-container')
-        .querySelector('svg')
-        .remove()
+      .getElementById(`${id}-svg-container`)
+      .querySelector('svg')
+      .remove()
     : ''
-  document.getElementById('#react-org-chart-svg-container').appendChild(step)
+  document.getElementById(`${id}-svg-container`).appendChild(step)
 
   // appending g element from svg
   const g = document
-    .getElementById('#react-org-chart-svg-container')
+    .getElementById(`${id}-svg-container`)
     .querySelector('g')
   g.setAttribute('transform', `translate(0,0)`)
   var html = new XMLSerializer().serializeToString(
     document
-      .getElementById('#react-org-chart-svg-container')
+      .getElementById(`${id}-svg-container`)
       .querySelector('svg')
   )
 
@@ -59,9 +59,9 @@ function exportOrgChartImage({ loadConfig }) {
   image.src = imgSrc
 
   // downloading the image
-  image.onload = function() {
+  image.onload = function () {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    canvas.toBlob(function(blob) {
+    canvas.toBlob(function (blob) {
       let a = document.createElement('a')
       let url = URL.createObjectURL(blob)
       a.download = 'orgchart.jpg'
