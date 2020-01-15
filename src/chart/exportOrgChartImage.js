@@ -1,3 +1,5 @@
+var d3SaveSvg = require("d3-save-svg")
+
 module.exports = exportOrgChartImage
 
 function exportOrgChartImage({ loadConfig }) {
@@ -16,9 +18,9 @@ function exportOrgChartImage({ loadConfig }) {
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
     ? document
-        .getElementById('#react-org-chart-svg-container')
-        .querySelector('svg')
-        .remove()
+      .getElementById('#react-org-chart-svg-container')
+      .querySelector('svg')
+      .remove()
     : ''
   document.getElementById(`${id}-svg-container`).appendChild(svg)
 
@@ -26,31 +28,11 @@ function exportOrgChartImage({ loadConfig }) {
   var g = document.getElementById(`${id}-svg-container`).querySelector('g')
   g.setAttribute('transform', `translate(0,0)`)
 
-  // generating image with base 64
-  var serializer = new XMLSerializer()
-  var source = serializer.serializeToString(svg)
-
-  //add name spaces.
-  if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
-    source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"')
-  }
-  if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
-    source = source.replace(
-      /^<svg/,
-      '<svg xmlns:xlink="http://www.w3.org/1999/xlink"'
-    )
+  var d3SaveSvgConfig = {
+    filename: 'orgchart',
   }
 
-  //add xml declaration
-  source = '<?xml version="1.0" standalone="no"?>\r\n' + source
-
-  //convert svg source to URI data scheme.
-  var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source)
-
-  var a = document.createElement('a')
-  a.download = 'orgchart.svg'
-  a.href = url
-  a.click()
+  d3SaveSvg.save(d3.select('#newsvg').node(), d3SaveSvgConfig);
 
   downlowdedOrgChart(true)
 }
