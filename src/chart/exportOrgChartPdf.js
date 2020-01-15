@@ -16,7 +16,6 @@ function exportOrgChartPdf({ loadConfig }) {
     margin,
   } = config
 
-  var ratio = 3
 
   const svgWidth = nodeLeftX + nodeRightX
   const svgHeight = nodeY + nodeHeight + 48
@@ -26,12 +25,13 @@ function exportOrgChartPdf({ loadConfig }) {
   let scale = svgWidth > elemWidth ? chooseScale - 0.03 : 0.5
   let translateX = nodeLeftX * scale + margin.left / 2
 
+  var ratio = svgWidth > 3000 ? 1 : 2
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
     ? document
-        .getElementById(`${id}-canvas-container`)
-        .querySelector('canvas')
-        .remove()
+      .getElementById(`${id}-canvas-container`)
+      .querySelector('canvas')
+      .remove()
     : ''
 
   // creating a canvas element
@@ -46,20 +46,20 @@ function exportOrgChartPdf({ loadConfig }) {
   step.id = 'newsvg'
   step.setAttribute('width', svgWidth)
   step.setAttribute('height', svgHeight)
-  step.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
+  step.setAttribute('viewBox', `${-translateX} 0 ${svgWidth} ${svgHeight}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
     ? document
-        .getElementById(`${id}-svg-container`)
-        .querySelector('svg')
-        .remove()
+      .getElementById(`${id}-svg-container`)
+      .querySelector('svg')
+      .remove()
     : ''
   document.getElementById(`${id}-svg-container`).appendChild(step)
 
   // appending g element from svg
   const g = document.getElementById(`${id}-svg-container`).querySelector('g')
-  g.setAttribute('transform', `translate(${translateX}, 2) scale(${scale})`)
+  g.setAttribute('transform', `translate(0, 2) scale(${scale})`)
   var html = new XMLSerializer().serializeToString(
     document.getElementById(`${id}-svg-container`).querySelector('svg')
   )
@@ -72,12 +72,12 @@ function exportOrgChartPdf({ loadConfig }) {
   image.src = imgSrc
 
   // downloading the image
-  image.onload = function() {
+  image.onload = function () {
     context.drawImage(image, 0, 0, canvas.width, canvas.height)
     let canvasData = canvas.toDataURL('image/jpeg,1.0')
 
-    let pdf = new jsPDF('l', 'px', [canvas.width, canvas.height])
-    pdf.addImage(canvasData, 'JPEG', 15, 2, canvas.width, canvas.height)
+    let pdf = new jsPDF('l', 'px', [svgWidth, 2050])
+    pdf.addImage(canvasData, 'JPEG', 15, 2, canvas.width * scale, canvas.height)
     pdf.save('Orgchart.pdf')
     downlowdedOrgChart(true)
   }
