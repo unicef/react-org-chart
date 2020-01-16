@@ -16,26 +16,30 @@ function exportOrgChartPdf({ loadConfig }) {
     margin,
   } = config
 
+  // a4 width and heigth for landscape
   const a4Width = 3508
   const a4Height = 2480
 
+  // svg width and height
   const svgWidth = nodeLeftX + nodeRightX
   const svgHeight = nodeY + nodeHeight + 48
 
-  const a4Ratio = a4Width / svgWidth
+  // calculating ratio for better quality if the svgWidth is less than a4Width
+  const ratio = svgWidth > a4Width ? 1 : 2
 
-  const scaleRatio = svgWidth > a4Width ? a4Ratio : 0.94
-  console.log('a4Ratio ', scaleRatio)
+  const widthWithRatio = svgWidth > a4Width ? svgWidth : svgWidth * ratio
+  const heightWithRatio = svgWidth > a4Width ? svgHeight : svgHeight * ratio
 
-  const width = a4Ratio * svgWidth
+  // scale
+  const scaleX = a4Width / widthWithRatio
+  const scaleY = a4Height / heightWithRatio
+  const chooseScale = scaleX < scaleY ? scaleX : scaleY
+  const scale = widthWithRatio > a4Width ? chooseScale - 0.04 : 0.85
+  const translateX = nodeLeftX * scale + margin.left / 2
 
-  let scaleX = elemWidth / svgWidth
-  let scaleY = elemHeight / svgHeight
-  let chooseScale = scaleX < scaleY ? scaleX : scaleY
-  let scale = svgWidth > elemWidth ? chooseScale - 0.03 : 0.5
-  let translateX = nodeLeftX * scale + margin.left / 2
-
-  // var ratio = svgWidth > 3000 ? 1 : 2
+  // Final width and height
+  const width = widthWithRatio * 0.85
+  const height = heightWithRatio * 0.85
 
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
@@ -48,8 +52,8 @@ function exportOrgChartPdf({ loadConfig }) {
   // creating a canvas element
   var canvas1 = document.createElement('canvas')
   canvas1.id = 'canvas1'
-  canvas1.width = svgWidth
-  canvas1.height = svgHeight
+  canvas1.width = svgWidth * ratio
+  canvas1.height = svgHeight * ratio
   document.getElementById(`${id}-canvas-container`).appendChild(canvas1)
 
   // creating duplicate org chart svg from original org chart svg
@@ -57,10 +61,7 @@ function exportOrgChartPdf({ loadConfig }) {
   step.id = 'newsvg'
   step.setAttribute('width', svgWidth)
   step.setAttribute('height', svgHeight)
-  step.setAttribute(
-    'viewBox',
-    `${-nodeLeftX * scaleRatio} 0 ${svgWidth} ${svgHeight}`
-  )
+  step.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
@@ -72,26 +73,26 @@ function exportOrgChartPdf({ loadConfig }) {
   document.getElementById(`${id}-svg-container`).appendChild(step)
 
   // appending g element from svg
-  const g = document.getElementById(`${id}-svg-container`).querySelector('g')
-  g.setAttribute('transform', `translate(0, 2) scale(${scaleRatio})`)
+  var g = document.getElementById(`${id}-svg-container`).querySelector('g')
+  g.setAttribute('transform', `translate(${translateX}, 2) scale(${scale})`)
   var html = new XMLSerializer().serializeToString(
     document.getElementById(`${id}-svg-container`).querySelector('svg')
   )
 
   // generating image with base 64
-  var imgSrc = 'data:image/svg+xml;base64,' + btoa(html)
-  let canvas = document.getElementById('canvas1')
-  let context = canvas.getContext('2d')
-  let image = new Image()
+  const imgSrc = 'data:image/svg+xml;base64,' + btoa(html)
+  const canvas = document.getElementById('canvas1')
+  const context = canvas.getContext('2d')
+  const image = new Image()
   image.src = imgSrc
 
   // downloading the image
   image.onload = function() {
-    context.drawImage(image, 0, 0, svgWidth, svgHeight)
-    let canvasData = canvas.toDataURL('image/jpeg,1.0')
+    context.drawImage(image, 0, 0, width, height)
+    const canvasData = canvas.toDataURL('image/jpeg,1.0')
 
-    let pdf = new jsPDF('l', 'px', [a4Width, a4Height])
-    pdf.addImage(canvasData, 'JPEG', 15, 2, svgWidth, svgHeight)
+    const pdf = new jsPDF('l', 'px', [a4Width, a4Height])
+    pdf.addImage(canvasData, 'JPEG', 15, 2, width, height)
     pdf.save('Orgchart.pdf')
     downlowdedOrgChart(true)
   }

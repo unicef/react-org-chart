@@ -257,12 +257,6 @@ function render(config) {
   d3.select(downloadPdfId).on('click', function() {
     exportOrgChartPdf(config)
   })
-  console.log(
-    config.nodeLeftX,
-    nodeRightX,
-    nodeY,
-    config.nodeLeftX + nodeRightX
-  )
   onConfigChange(config)
 }
 module.exports = render
