@@ -10,8 +10,6 @@ function exportOrgChartPdf({ loadConfig }) {
     nodeLeftX,
     nodeRightX,
     nodeY,
-    elemHeight,
-    elemWidth,
     nodeHeight,
     margin,
   } = config
@@ -30,11 +28,13 @@ function exportOrgChartPdf({ loadConfig }) {
   const widthWithRatio = svgWidth > a4Width ? svgWidth : svgWidth * ratio
   const heightWithRatio = svgWidth > a4Width ? svgHeight : svgHeight * ratio
 
+  const defaultScale = svgWidth > 600 ? 0.87 : 0.6
+
   // scale
   const scaleX = a4Width / widthWithRatio
   const scaleY = a4Height / heightWithRatio
   const chooseScale = scaleX < scaleY ? scaleX : scaleY
-  const scale = widthWithRatio > a4Width ? chooseScale - 0.04 : 0.85
+  const scale = widthWithRatio > a4Width ? chooseScale - 0.04 : defaultScale
   const translateX = nodeLeftX * scale + margin.left / 2
 
   // Final width and height
