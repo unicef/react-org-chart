@@ -10,21 +10,36 @@ function exportOrgChartPdf({ loadConfig }) {
     nodeLeftX,
     nodeRightX,
     nodeY,
-    elemHeight,
-    elemWidth,
     nodeHeight,
     margin,
   } = config
 
-  var ratio = 3
+  // a4 width and heigth for landscape
+  const a4Width = 3508
+  const a4Height = 2480
 
+  // svg width and height
   const svgWidth = nodeLeftX + nodeRightX
   const svgHeight = nodeY + nodeHeight + 48
-  let scaleX = elemWidth / svgWidth
-  let scaleY = elemHeight / svgHeight
-  let chooseScale = scaleX < scaleY ? scaleX : scaleY
-  let scale = svgWidth > elemWidth ? chooseScale - 0.03 : 0.5
-  let translateX = nodeLeftX * scale + margin.left / 2
+
+  // calculating ratio for better quality if the svgWidth is less than a4Width
+  const ratio = svgWidth > a4Width ? 1 : 2
+
+  const widthWithRatio = svgWidth > a4Width ? svgWidth : svgWidth * ratio
+  const heightWithRatio = svgWidth > a4Width ? svgHeight : svgHeight * ratio
+
+  const defaultScale = svgWidth > 600 ? 0.87 : 0.6
+
+  // scale
+  const scaleX = a4Width / widthWithRatio
+  const scaleY = a4Height / heightWithRatio
+  const chooseScale = scaleX < scaleY ? scaleX : scaleY
+  const scale = widthWithRatio > a4Width ? chooseScale - 0.04 : defaultScale
+  const translateX = nodeLeftX * scale + margin.left / 2
+
+  // Final width and height
+  const width = widthWithRatio * 0.85
+  const height = heightWithRatio * 0.85
 
   // checking wether it has canvas in the convas-container div
   document.getElementById(`${id}-canvas-container`).querySelector('canvas')
@@ -58,26 +73,26 @@ function exportOrgChartPdf({ loadConfig }) {
   document.getElementById(`${id}-svg-container`).appendChild(step)
 
   // appending g element from svg
-  const g = document.getElementById(`${id}-svg-container`).querySelector('g')
+  var g = document.getElementById(`${id}-svg-container`).querySelector('g')
   g.setAttribute('transform', `translate(${translateX}, 2) scale(${scale})`)
   var html = new XMLSerializer().serializeToString(
     document.getElementById(`${id}-svg-container`).querySelector('svg')
   )
 
   // generating image with base 64
-  var imgSrc = 'data:image/svg+xml;base64,' + btoa(html)
-  let canvas = document.getElementById('canvas1')
-  let context = canvas.getContext('2d')
-  let image = new Image()
+  const imgSrc = 'data:image/svg+xml;base64,' + btoa(html)
+  const canvas = document.getElementById('canvas1')
+  const context = canvas.getContext('2d')
+  const image = new Image()
   image.src = imgSrc
 
   // downloading the image
   image.onload = function() {
-    context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    let canvasData = canvas.toDataURL('image/jpeg,1.0')
+    context.drawImage(image, 0, 0, width, height)
+    const canvasData = canvas.toDataURL('image/jpeg,1.0')
 
-    let pdf = new jsPDF('l', 'px', [canvas.width, canvas.height])
-    pdf.addImage(canvasData, 'JPEG', 15, 2, canvas.width, canvas.height)
+    const pdf = new jsPDF('l', 'px', [a4Width, a4Height])
+    pdf.addImage(canvasData, 'JPEG', 15, 2, width, height)
     pdf.save('Orgchart.pdf')
     downlowdedOrgChart(true)
   }
