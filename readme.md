@@ -17,7 +17,7 @@ Original:
 Added:
 
 - Lazy-load of parents
-- Zoom in and zoom out with buttons
+- Bind Zoom in and zoom out, zoom extension to buttons
 - Download svg as image and pdf
 
 ### React Props
