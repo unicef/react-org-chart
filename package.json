@@ -1,6 +1,6 @@
 {
   "name": "@unicef/react-org-chart",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Simple, high-performance react component for d3 org chart",
   "repository": "",
   "main": "dist/index.js",
