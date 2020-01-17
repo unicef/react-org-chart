@@ -163,7 +163,7 @@ function init(options) {
 
   // Zoom on button click
   function zoomClick() {
-    //Zoom extent to fit svg on the screen
+    // Zoom extent to fit svg on the screen
     if (this.id === zoomExtentId) {
       const latestConfig = loadConfig()
       const {
@@ -176,9 +176,12 @@ function init(options) {
 
       const svgWidth = nodeLeftX + nodeRightX
       const svgHeight = nodeY + nodeHeight * 2 + 48
+
       let scaleX = elemWidth / svgWidth - 0.03
-      let scaleY = elemHeight / svgHeight - 0.03
-      let scale = scaleX < scaleY ? scaleX : scaleY
+      let scaleY = elemHeight / svgHeight - 0.06
+      const chooseScale = scaleX < scaleY ? scaleX : scaleY
+      let scale =
+        svgWidth > elemWidth || svgHeight > elemHeight ? chooseScale : 1
       let translateX = nodeLeftX * scale + margin.left / 2
 
       if (svgWidth > elemWidth || svgHeight > elemHeight) {
@@ -190,7 +193,11 @@ function init(options) {
           translateX = elemWidth / 2 - margin.left / 2
           interpolateZoom([translateX, 48], scale)
         }
+      } else {
+        translateX = elemWidth / 2 - margin.left / 2
+        interpolateZoom([translateX, 48], scale)
       }
+
       return
     }
     var clicked = d3.event.target,
