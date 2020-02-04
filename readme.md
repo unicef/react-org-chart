@@ -159,6 +159,12 @@ npm install # Only first time
 npm start
 ```
 
+To deploy the example to gh-pages site
+
+```bash
+npm run deploy
+```
+
 # License
 
 Copyright 2019 UNICEF http://www.unicef.org
