@@ -2,12 +2,13 @@ import React from 'react'
 import './App.css'
 import OrgChart from '@unicef/react-org-chart'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
+import avatarPersonnel from './assets/avatar-personnel.svg'
 
 const tree = {
   id: 100,
   person: {
     id: 100,
-    avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+    avatar: avatarPersonnel,
     department: '',
     name: 'Henry monger',
     title: 'Manager',
@@ -23,7 +24,7 @@ const tree1 = [
     id: 36,
     person: {
       id: 36,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Tomasz polaski',
       title: 'IT Specialist',
@@ -37,7 +38,7 @@ const tree1 = [
     id: 32,
     person: {
       id: 32,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Emanuel walker',
       title: 'IT Specialist',
@@ -51,7 +52,7 @@ const tree1 = [
     id: 25,
     person: {
       id: 25,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Kerry peter',
       title: 'IT Specialist',
@@ -68,7 +69,7 @@ const tree2 = [
     id: 56,
     person: {
       id: 56,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Sam John',
       title: 'HR',
@@ -83,7 +84,7 @@ const tree2 = [
     id: 66,
     person: {
       id: 66,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'John doe',
       title: 'Developer',
@@ -98,7 +99,7 @@ const tree2 = [
     id: 76,
     person: {
       id: 76,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Emilia rogers',
       title: 'Developer',
@@ -113,7 +114,7 @@ const tree2 = [
     id: 60,
     person: {
       id: 60,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Ellen cott',
       title: 'IT Officer',
@@ -130,7 +131,7 @@ const tree3 = [
     id: 70,
     person: {
       id: 70,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Kenneth dom',
       title: 'IT Officer',
@@ -144,7 +145,7 @@ const tree3 = [
     id: 45,
     person: {
       id: 45,
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+      avatar: avatarPersonnel,
       department: '',
       name: 'Kin baker',
       title: 'IT Officer',
@@ -187,8 +188,7 @@ export default class App extends React.Component {
         id: 500,
         person: {
           id: 500,
-          avatar:
-            'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+          avatar: avatarPersonnel,
           department: '',
           name: 'Pascal ruth',
           title: 'Member',
@@ -203,8 +203,7 @@ export default class App extends React.Component {
         id: 1,
         person: {
           id: 1,
-          avatar:
-            'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg',
+          avatar: avatarPersonnel,
           department: '',
           name: 'Bryce joe',
           title: 'Director',
