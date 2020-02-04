@@ -2,7 +2,6 @@
   "name": "@unicef/react-org-chart",
   "version": "0.3.4",
   "description": "Simple, high-performance react component for d3 org chart",
-  "repository": "",
   "main": "dist/index.js",
   "directories": {
     "example": "src/examples"
@@ -10,11 +9,16 @@
   "files": [
     "dist/index.js"
   ],
+  "homepage": "https://unicef.github.io/react-org-chart",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unicef/react-org-chart.git"
+  },
   "scripts": {
     "start": "webpack --watch --mode production",
     "build": "webpack --mode production",
     "clean": "rimraf dist",
-    "deploy": "npm run deploy"
+    "deploy": "cd examples && npm run deploy"
   },
   "keywords": [],
   "author": "UNICEF, based on work of Fouad Matin <m@fouad.org>",
