@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.7b8f8bc1.chunk.css",
-    "main.js": "/static/js/main.65bc89c6.chunk.js",
-    "main.js.map": "/static/js/main.65bc89c6.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.f8aea97c.js",
-    "runtime-main.js.map": "/static/js/runtime-main.f8aea97c.js.map",
-    "static/js/2.a724e301.chunk.js": "/static/js/2.a724e301.chunk.js",
-    "static/js/2.a724e301.chunk.js.map": "/static/js/2.a724e301.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.2af20fcca5e550a76a458842dc586f16.js": "/precache-manifest.2af20fcca5e550a76a458842dc586f16.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.7b8f8bc1.chunk.css.map": "/static/css/main.7b8f8bc1.chunk.css.map",
-    "static/js/2.a724e301.chunk.js.LICENSE": "/static/js/2.a724e301.chunk.js.LICENSE",
-    "static/js/main.65bc89c6.chunk.js.LICENSE": "/static/js/main.65bc89c6.chunk.js.LICENSE"
+    "main.css": "/react-org-chart/static/css/main.7b8f8bc1.chunk.css",
+    "main.js": "/react-org-chart/static/js/main.63bf0f5b.chunk.js",
+    "main.js.map": "/react-org-chart/static/js/main.63bf0f5b.chunk.js.map",
+    "runtime-main.js": "/react-org-chart/static/js/runtime-main.b72a580d.js",
+    "runtime-main.js.map": "/react-org-chart/static/js/runtime-main.b72a580d.js.map",
+    "static/js/2.a724e301.chunk.js": "/react-org-chart/static/js/2.a724e301.chunk.js",
+    "static/js/2.a724e301.chunk.js.map": "/react-org-chart/static/js/2.a724e301.chunk.js.map",
+    "index.html": "/react-org-chart/index.html",
+    "precache-manifest.48113eb7dcad6738695c36451908018c.js": "/react-org-chart/precache-manifest.48113eb7dcad6738695c36451908018c.js",
+    "service-worker.js": "/react-org-chart/service-worker.js",
+    "static/css/main.7b8f8bc1.chunk.css.map": "/react-org-chart/static/css/main.7b8f8bc1.chunk.css.map",
+    "static/js/2.a724e301.chunk.js.LICENSE": "/react-org-chart/static/js/2.a724e301.chunk.js.LICENSE",
+    "static/js/main.63bf0f5b.chunk.js.LICENSE": "/react-org-chart/static/js/main.63bf0f5b.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.f8aea97c.js",
+    "static/js/runtime-main.b72a580d.js",
     "static/js/2.a724e301.chunk.js",
     "static/css/main.7b8f8bc1.chunk.css",
-    "static/js/main.65bc89c6.chunk.js"
+    "static/js/main.63bf0f5b.chunk.js"
   ]
 }
