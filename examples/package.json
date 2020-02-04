@@ -11,7 +11,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0"
   },
-  "homepage": "https://unicef.github.io/react-org-chart/",
+  "homepage": "https://unicef.github.io/react-org-chart",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unicef/react-org-chart.git"

@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import OrgChart from '@unicef/react-org-chart'
-import { HashRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 const tree = {
   id: 100,
@@ -240,7 +240,7 @@ export default class App extends React.Component {
     const downloadPdfId = 'download-pdf'
 
     return (
-      <HashRouter basename="/">
+      <BrowserRouter basename="/react-org-chart">
         <Route exact path="/">
           <React.Fragment>
             <div className="buttons-container">
@@ -296,7 +296,6 @@ export default class App extends React.Component {
                 )
               }}
               loadParent={d => {
-                console.log(d)
                 const parentData = this.getParent(d)
                 return parentData
               }}
@@ -307,7 +306,7 @@ export default class App extends React.Component {
             />
           </React.Fragment>
         </Route>
-      </HashRouter>
+      </BrowserRouter>
     )
   }
 }
