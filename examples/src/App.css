@@ -45,15 +45,22 @@ body {
   fill: #26c6da !important;
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
+.zoom-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.buttons-container .zoom-button {
+.download-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.zoom-button {
   width: 40px;
   height: 40px;
-  display: block;
+  display: block !important;
   margin: 8px;
 }
 
@@ -85,7 +92,7 @@ body {
   border-color: #374ea2;
 }
 
-.buttons-container .github-link {
+.github-link {
   font-size: 16px;
   margin-left: 8px;
   margin-right: 16px;
