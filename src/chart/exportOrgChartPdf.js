@@ -61,7 +61,7 @@ function exportOrgChartPdf({ loadConfig }) {
   step.id = 'newsvg'
   step.setAttribute('width', svgWidth)
   step.setAttribute('height', svgHeight)
-  step.setAttribute('viewBox', `0 0 ${svgWidth + 200} ${svgHeight}`)
+  step.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
