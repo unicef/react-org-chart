@@ -29,7 +29,7 @@ function exportOrgChartImage({ loadConfig }) {
   step.id = 'newsvg'
   step.setAttribute('width', w)
   step.setAttribute('height', h)
-  step.setAttribute('viewBox', `${-nodeLeftX} 0 ${w} ${h + 200}`)
+  step.setAttribute('viewBox', `${-nodeLeftX - 10} 0 ${w + 220} ${h + 200}`)
   step.innerHTML = document.getElementById('svg').innerHTML
 
   document.getElementById(`${id}-svg-container`).querySelector('svg')
