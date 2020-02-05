@@ -1,161 +1,9 @@
 import React from 'react'
 import './App.css'
 import OrgChart from '@unicef/react-org-chart'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
+import { tree, tree1, tree2, tree3, tree4 } from './Tree'
 import avatarPersonnel from './assets/avatar-personnel.svg'
-
-const tree = {
-  id: 100,
-  person: {
-    id: 100,
-    avatar: avatarPersonnel,
-    department: '',
-    name: 'Henry monger',
-    title: 'Manager',
-    totalReports: 3,
-  },
-  hasChild: true,
-  hasParent: true,
-  children: [],
-}
-
-const tree1 = [
-  {
-    id: 36,
-    person: {
-      id: 36,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Tomasz polaski',
-      title: 'IT Specialist',
-      totalReports: 4,
-    },
-    hasChild: true,
-    hasParent: true,
-    // children: [],
-  },
-  {
-    id: 32,
-    person: {
-      id: 32,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Emanuel walker',
-      title: 'IT Specialist',
-      totalReports: 0,
-    },
-    hasChild: true,
-    hasParent: true,
-    children: [],
-  },
-  {
-    id: 25,
-    person: {
-      id: 25,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Kerry peter',
-      title: 'IT Specialist',
-      totalReports: 0,
-    },
-    hasChild: true,
-    hasParent: true,
-    children: [],
-  },
-]
-
-const tree2 = [
-  {
-    id: 56,
-    person: {
-      id: 56,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Sam John',
-      title: 'HR',
-      totalReports: 2,
-      link: 'https://github.com/unicef/react-org-chart',
-    },
-    hasChild: true,
-    hasParent: true,
-    // children: [],
-  },
-  {
-    id: 66,
-    person: {
-      id: 66,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'John doe',
-      title: 'Developer',
-      totalReports: 0,
-      link: 'https://github.com/unicef/react-org-chart',
-    },
-    hasChild: true,
-    hasParent: true,
-    children: [],
-  },
-  {
-    id: 76,
-    person: {
-      id: 76,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Emilia rogers',
-      title: 'Developer',
-      totalReports: 0,
-      link: 'https://github.com/unicef/react-org-chart',
-    },
-    hasChild: true,
-    hasParent: true,
-    children: [],
-  },
-  {
-    id: 60,
-    person: {
-      id: 60,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Ellen cott',
-      title: 'IT Officer',
-      totalReports: 0,
-    },
-    hasChild: false,
-    hasParent: true,
-    children: [],
-  },
-]
-
-const tree3 = [
-  {
-    id: 70,
-    person: {
-      id: 70,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Kenneth dom',
-      title: 'IT Officer',
-      totalReports: 0,
-    },
-    hasChild: false,
-    hasParent: true,
-    children: [],
-  },
-  {
-    id: 45,
-    person: {
-      id: 45,
-      avatar: avatarPersonnel,
-      department: '',
-      name: 'Kin baker',
-      title: 'IT Officer',
-      totalReports: 0,
-    },
-    hasChild: false,
-    hasParent: true,
-    children: [],
-  },
-]
 
 export default class App extends React.Component {
   constructor(props) {
@@ -177,6 +25,8 @@ export default class App extends React.Component {
         return tree2
       case 56:
         return tree3
+      case 25:
+        return tree4
       default:
         return console.log('no children')
     }
@@ -242,36 +92,34 @@ export default class App extends React.Component {
       <BrowserRouter basename="/react-org-chart">
         <Route exact path="/">
           <React.Fragment>
-            <div className="buttons-container">
-              <div className="zoom-buttons">
-                <button
-                  className="btn btn-outline-primary zoom-button"
-                  id="zoom-in"
-                >
-                  +
-                </button>
-                <button
-                  className="btn btn-outline-primary zoom-button"
-                  id="zoom-out"
-                >
-                  -
-                </button>
-              </div>
-              <div className="">
-                <button className="btn btn-outline-primary" id="download-image">
-                  Download as image
-                </button>
-                <button className="btn btn-outline-primary" id="download-pdf">
-                  Download as PDF
-                </button>
-                <a
-                  className="github-link"
-                  href="https://github.com/unicef/react-org-chart"
-                >
-                  Github
-                </a>
-                {downloadingChart && <div>Downloading chart</div>}
-              </div>
+            <div className="zoom-buttons">
+              <button
+                className="btn btn-outline-primary zoom-button"
+                id="zoom-in"
+              >
+                +
+              </button>
+              <button
+                className="btn btn-outline-primary zoom-button"
+                id="zoom-out"
+              >
+                -
+              </button>
+            </div>
+            <div className="download-buttons">
+              <button className="btn btn-outline-primary" id="download-image">
+                Download as image
+              </button>
+              <button className="btn btn-outline-primary" id="download-pdf">
+                Download as PDF
+              </button>
+              <a
+                className="github-link"
+                href="https://github.com/unicef/react-org-chart"
+              >
+                Github
+              </a>
+              {downloadingChart && <div>Downloading chart</div>}
             </div>
             <OrgChart
               tree={tree}
@@ -290,9 +138,7 @@ export default class App extends React.Component {
                 this.handleDownload()
               }}
               loadImage={d => {
-                return Promise.resolve(
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/spbroma/128.jpg'
-                )
+                return Promise.resolve(avatarPersonnel)
               }}
               loadParent={d => {
                 const parentData = this.getParent(d)
