@@ -2,23 +2,26 @@
 
 React component for displaying organizational charts.
 
-This component is based on https://github.com/coreseekdev/react-org-chart. On top of it, we added a few customizations for our needs.
+This component is based on [coreseekdev/react-org-chart](https://github.com/coreseekdev/react-org-chart). On top of it, we added a few customization to fulfill our requirements.
+
+### [View demo](https://unicef.github.io/react-org-chart/)
+
 
 # Features
 
-Original:
+From the original package:
 
 - High-performance D3-based SVG rendering
 - Lazy-load children with a custom function
 - Handle up to 1 million collapsed nodes and 5,000 expanded nodes
-- Pan
-- Zoom in zoom out
+- Pan (drag and drop)
+- Zoom in zoom out (with mouse wheel/scroll)
 
-Added:
+What we added:
 
-- Lazy-load of parents
-- Bind zoom in and zoom out and zoom extension to buttons
-- Download SVG as image and PDF
+- Lazy-load of parents (go up in the tree)
+- Zoom in, zoom out and zoom buttons.
+- Download orgchart as image or PDF
 
 ### React Props
 
@@ -167,7 +170,7 @@ npm run deploy
 
 # License
 
-Copyright 2019 UNICEF http://www.unicef.org
+Copyright 2019-2020 UNICEF http://www.unicef.org
 Developed by ICTD, Solutions Center and Support, Digital Tools and Platforms, Custom Applications Team, New York.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
