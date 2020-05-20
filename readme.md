@@ -169,6 +169,18 @@ To deploy the example to gh-pages site
 npm run deploy
 ```
 
+## About UNICEF
+
+[UNICEF](https://www.unicef.org/) works in over 190 countries and territories to protect the rights of every child. UNICEF has spent more than 70 years working to improve the lives of children and their families. In UNICEF, we **believe all children have a right to survive, thrive and fulfill their potential – to the benefit of a better world**.
+
+[Donate](https://donate.unicef.org/donate/now)
+
+
+## Collaborations and support
+
+Just fork the project and make a pull request. You may also [consider donating](https://donate.unicef.org/donate/now).
+
+
 # License
 
 Copyright 2019-2020 UNICEF http://www.unicef.org
