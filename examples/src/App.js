@@ -138,7 +138,7 @@ export default class App extends React.Component {
                 this.handleDownload()
               }}
               loadImage={d => {
-                return Promise.resolve(avatarPersonnel)
+                return Promise.resolve(d)
               }}
               loadParent={d => {
                 const parentData = this.getParent(d)
