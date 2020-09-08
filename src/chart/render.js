@@ -186,8 +186,9 @@ function render(config) {
     .append('a')
     .attr('class', PERSON_LINK_CLASS)
     .attr('display', d => (d.person.link ? '' : 'none'))
-    .attr('xlink:href', d => d.person.link)
+    .attr('onclick', d => d.person.link)
     .on('click', datum => {
+      datum.person.link()
       d3.event.stopPropagation()
       // TODO: fire link click handler
       if (onPersonLinkClick) {
