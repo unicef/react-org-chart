@@ -2,8 +2,12 @@ import React from 'react'
 import './App.css'
 import OrgChart from '@unicef/react-org-chart'
 import { BrowserRouter, Route } from 'react-router-dom'
-import { tree, tree1, tree2, tree3, tree4 } from './Tree'
+import { tree } from './Tree'
 import avatarPersonnel from './assets/avatar-personnel.svg'
+
+//For downloading org chart as image or pdf based on id
+const downloadImageId = 'download-image'
+const downloadPdfId = 'download-pdf'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -15,24 +19,69 @@ export default class App extends React.Component {
       config: {},
       highlightPostNumbers: [1],
     }
+
+    this.orgChart = OrgChart({
+      tree,
+      downloadImageId,
+      downloadPdfId,
+      onConfigChange: (config) => {
+        console.log('onConfigChange', config)
+        this.handleOnChangeConfig(config)
+      },
+      onAddChild: (data, i) => {
+        console.log('onAddChild', data, i)
+      },
+      onRemoveItem: (data, i) => {
+        console.log('onRemoveItem', data, i)
+      },
+      loadConfig: (d) => {
+        console.log('loadConfig', d)
+        let configuration = this.handleLoadConfig(d)
+        if (configuration) {
+          return configuration
+        }
+      },
+      downlowdedOrgChart: (d) => {
+        this.handleDownload()
+      },
+      loadImage: (d) => {
+        return Promise.resolve(avatarPersonnel)
+      },
+      loadParent: (d) => {
+        const parentData = this.getParent(d)
+        return parentData
+      },
+      loadChildren: (d) => {
+        console.log('loadChildren', d)
+        const childrenData = this.getChild(d.id)
+        return childrenData
+      },
+      addChildText: 'add a new supervisor',
+      removeItemText: 'remove this item',
+    })
   }
 
-  getChild = id => {
-    switch (id) {
-      case 100:
-        return tree1
-      case 36:
-        return tree2
-      case 56:
-        return tree3
-      case 25:
-        return tree4
-      default:
-        return console.log('no children')
-    }
+  componentDidMount() {
+    this.orgChart.init()
+    // this.rerender = rerender;
   }
 
-  getParent = d => {
+  getChild = (id) => {
+    // switch (id) {
+    //   case 100:
+    //     return tree1
+    //   case 36:
+    //     return tree2
+    //   case 56:
+    //     return tree3
+    //   case 25:
+    //     return tree4
+    //   default:
+    //     return console.log('no children')
+    // }
+  }
+
+  getParent = (d) => {
     if (d.id === 100) {
       return {
         id: 500,
@@ -72,7 +121,7 @@ export default class App extends React.Component {
     this.setState({ downloadingChart: false })
   }
 
-  handleOnChangeConfig = config => {
+  handleOnChangeConfig = (config) => {
     this.setState({ config: config })
   }
 
@@ -81,12 +130,20 @@ export default class App extends React.Component {
     return config
   }
 
-  render() {
-    const { tree, downloadingChart } = this.state
+  handleChange = () => {
+    const lastConfig = { ...this.state.config }
 
-    //For downloading org chart as image or pdf based on id
-    const downloadImageId = 'download-image'
-    const downloadPdfId = 'download-pdf'
+    lastConfig.treeData.person.name = 'name changed 1'
+
+    lastConfig.treeData.children[0].person.name = 'name changed 2'
+
+//     lastConfig.treeData.children[0].children[2].person.name = 'title changed 3'
+
+    this.state.config.update(lastConfig)
+  }
+
+  render() {
+    const { downloadingChart } = this.state
 
     return (
       <BrowserRouter basename="/react-org-chart">
@@ -105,6 +162,7 @@ export default class App extends React.Component {
               >
                 -
               </button>
+              <button onClick={this.handleChange}>change it</button>
             </div>
             <div className="download-buttons">
               <button className="btn btn-outline-primary" id="download-image">
@@ -121,34 +179,35 @@ export default class App extends React.Component {
               </a>
               {downloadingChart && <div>Downloading chart</div>}
             </div>
-            <OrgChart
-              tree={tree}
-              downloadImageId={downloadImageId}
-              downloadPdfId={downloadPdfId}
-              onConfigChange={config => {
-                this.handleOnChangeConfig(config)
-              }}
-              loadConfig={d => {
-                let configuration = this.handleLoadConfig(d)
-                if (configuration) {
-                  return configuration
-                }
-              }}
-              downlowdedOrgChart={d => {
-                this.handleDownload()
-              }}
-              loadImage={d => {
-                return Promise.resolve(avatarPersonnel)
-              }}
-              loadParent={d => {
-                const parentData = this.getParent(d)
-                return parentData
-              }}
-              loadChildren={d => {
-                const childrenData = this.getChild(d.id)
-                return childrenData
-              }}
-            />
+            {/* <OrgChart */}
+            {/*   tree={tree} */}
+            {/*   downloadImageId={downloadImageId} */}
+            {/*   downloadPdfId={downloadPdfId} */}
+            {/*   onConfigChange={(config) => { */}
+            {/*     this.handleOnChangeConfig(config) */}
+            {/*   }} */}
+            {/*   loadConfig={(d) => { */}
+            {/*     let configuration = this.handleLoadConfig(d) */}
+            {/*     if (configuration) { */}
+            {/*       return configuration */}
+            {/*     } */}
+            {/*   }} */}
+            {/*   downlowdedOrgChart={(d) => { */}
+            {/*     this.handleDownload() */}
+            {/*   }} */}
+            {/*   loadImage={(d) => { */}
+            {/*     return Promise.resolve(avatarPersonnel) */}
+            {/*   }} */}
+            {/*   loadParent={(d) => { */}
+            {/*     const parentData = this.getParent(d) */}
+            {/*     return parentData */}
+            {/*   }} */}
+            {/*   loadChildren={(d) => { */}
+            {/*     const childrenData = this.getChild(d.id) */}
+            {/*     return childrenData */}
+            {/*   }} */}
+            {/* /> */}
+            {this.orgChart.render()}
           </React.Fragment>
         </Route>
       </BrowserRouter>

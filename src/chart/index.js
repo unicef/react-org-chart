@@ -2,7 +2,8 @@ const d3 = require('d3')
 const { collapse, wrapText, helpers } = require('../utils')
 const defineBoxShadow = require('../defs/defineBoxShadow')
 const defineAvatarClip = require('../defs/defineAvatarClip')
-const render = require('./render')
+const { render } = require('./render')
+const update = require('./update')
 const defaultConfig = require('./config')
 
 module.exports = {
@@ -117,6 +118,7 @@ function init(options) {
   config.elemWidth = elemWidth
   config.elemHeight = elemHeight
   config.render = render
+  config.update = update
 
   // Defined zoom behavior
   var zoom = d3.behavior
@@ -151,10 +153,10 @@ function init(options) {
     return d3
       .transition()
       .duration(350)
-      .tween('zoom', function() {
+      .tween('zoom', function () {
         var iTranslate = d3.interpolate(zoom.translate(), translate),
           iScale = d3.interpolate(zoom.scale(), scale)
-        return function(t) {
+        return function (t) {
           zoom.scale(iScale(t)).translate(iTranslate(t))
           zoomed()
         }
@@ -166,13 +168,8 @@ function init(options) {
     // Zoom extent to fit svg on the screen
     if (this.id === zoomExtentId) {
       const latestConfig = loadConfig()
-      const {
-        nodeLeftX,
-        nodeRightX,
-        nodeY,
-        elemHeight,
-        elemWidth,
-      } = latestConfig
+      const { nodeLeftX, nodeRightX, nodeY, elemHeight, elemWidth } =
+        latestConfig
 
       const svgWidth = nodeLeftX + nodeRightX
       const svgHeight = nodeY + nodeHeight * 2 + 48

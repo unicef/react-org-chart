@@ -1,37 +1,39 @@
-const { createElement, PureComponent } = require('react')
-const { init } = require('../chart')
+import { createElement } from 'react'
+const { init: initialize } = require('../chart')
 
-class OrgChart extends PureComponent {
-  render() {
-    const { id } = this.props
-
-    return createElement('div', {
-      id,
-    })
-  }
-
-  static defaultProps = {
+function NewOrgChart(props) {
+  const defaultProps = {
     id: 'react-org-chart',
     downloadImageId: 'download-image',
     downloadPdfId: 'download-pdf',
     zoomInId: 'zoom-in',
     zoomOutId: 'zoom-out',
     zoomExtentId: 'zoom-extent',
+    addChildText: 'add a supervisor',
+    removeItemText: 'remove this item',
   }
 
-  componentDidMount() {
-    const {
-      id,
-      downloadImageId,
-      downloadPdfId,
-      zoomInId,
-      zoomOutId,
-      zoomExtentId,
-      tree,
-      ...options
-    } = this.props
+  const {
+    id,
+    downloadImageId,
+    downloadPdfId,
+    zoomInId,
+    zoomOutId,
+    zoomExtentId,
+    tree,
+    addChildText,
+    removeItemText,
+    ...options
+  } = {...defaultProps,...props}
 
-    init({
+  const render = () =>
+    createElement('div', {
+      id,
+    })
+
+
+  const init = () => {
+    initialize({
       id: `#${id}`,
       downloadImageId: `#${downloadImageId}`,
       downloadPdfId: `#${downloadPdfId}`,
@@ -39,9 +41,16 @@ class OrgChart extends PureComponent {
       zoomOutId: zoomOutId,
       zoomExtentId: zoomExtentId,
       data: tree,
+      addChildText : addChildText,
+      removeItemText : removeItemText,
       ...options,
     })
   }
+
+  return {
+    render,
+    init,
+  }
 }
 
-module.exports = OrgChart
+module.exports = NewOrgChart

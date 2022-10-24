@@ -26,6 +26,8 @@ const borderColor = '#c9c9c9'
 const nameColor = '#222d38'
 const titleColor = '#617080'
 const reportsColor = '#92A0AD'
+const addChildColor = '#424242'
+const removeChildColor = '#424242'
 
 const config = {
   margin,
@@ -44,6 +46,8 @@ const config = {
   nameColor,
   titleColor,
   reportsColor,
+  addChildColor,
+  removeChildColor,
   shouldResize,
 }
 
